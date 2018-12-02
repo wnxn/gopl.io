@@ -13,6 +13,7 @@ import (
 	"os"
 	"github.com/golang/glog"
 	"io/ioutil"
+	"bytes"
 )
 
 //!+bytecounter
@@ -32,35 +33,27 @@ func (c *ByteCounter) Write(p []byte) (int, error) {
 type WordCounter int
 
 func (c *WordCounter) Write(p []byte)(int, error){
-	for ;len(p)>0;{
-		nextHead, token, err :=  bufio.ScanWords(p, true)
-		if err != nil{
-			return 0, err
-		}
-		if token != nil{
-			fmt.Printf("%s, ",  token)
-			*c += 1
-		}
-		p = p[nextHead:]
+	scanner := bufio.NewScanner(bytes.NewReader(p))
+	scanner.Split(bufio.ScanWords)
+	count := 0
+	for scanner.Scan(){
+		count++
 	}
-	return int(*c),nil
+	*c = WordCounter(count)
+	return count,scanner.Err()
 }
 
 type LineCounter int
 
 func (c *LineCounter)Write(p []byte)(int, error){
-	for ;len(p)>0;{
-		nextHead, token, err :=  bufio.ScanLines(p, true)
-		if err != nil{
-			return 0, err
-		}
-		if token != nil{
-//			fmt.Printf("%s, ",  token)
-			*c += 1
-		}
-		p = p[nextHead:]
+	scanner := bufio.NewScanner(bytes.NewReader(p))
+	scanner.Split(bufio.ScanLines)
+	count :=0
+	for scanner.Scan(){
+		count++
 	}
-	return int(*c),nil
+	*c = LineCounter(count)
+	return count,scanner.Err()
 }
 
 func main() {
