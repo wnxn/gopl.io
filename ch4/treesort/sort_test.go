@@ -8,7 +8,8 @@ import (
 	"sort"
 	"testing"
 
-	"gopl.io/ch4/treesort"
+	"github.com/adonovan/gopl.io/ch4/treesort"
+	"fmt"
 )
 
 func TestSort(t *testing.T) {
@@ -20,4 +21,13 @@ func TestSort(t *testing.T) {
 	if !sort.IntsAreSorted(data) {
 		t.Errorf("not sorted: %v", data)
 	}
+}
+
+func TestString(t *testing.T){
+	data := make([]int, 50)
+	for i := range data {
+		data[i] = rand.Int() % 50
+	}
+	tree := treesort.GetTree(data)
+	fmt.Println(tree)
 }

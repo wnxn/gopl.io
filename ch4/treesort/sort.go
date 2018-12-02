@@ -6,6 +6,10 @@
 // Package treesort provides insertion sort using an unbalanced binary tree.
 package treesort
 
+import (
+	"strconv"
+)
+
 //!+
 type tree struct {
 	value       int
@@ -48,3 +52,24 @@ func add(t *tree, value int) *tree {
 }
 
 //!-
+func (t *tree)String()string{
+	res := ""
+	if t.left != nil{
+		res = t.left.String() + " "
+	}
+	res += strconv.Itoa(t.value)
+	if t.right != nil{
+		res += " " + t.right.String()
+	}
+	return res
+}
+
+// Sort sorts values in place.
+func GetTree(values []int) *tree{
+	var root *tree
+	for _, v := range values {
+		root = add(root, v)
+	}
+	appendValues(values[:0], root)
+	return root
+}
