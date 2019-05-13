@@ -30,6 +30,35 @@ func PopCount(x uint64) int {
 		pc[byte(x>>(7*8))])
 }
 
+func PopCountLoop(x uint64)int{
+	res := 0
+	var i uint8 = 0
+	for;i < uint8(8);i++{
+		res += int(pc[byte(x >>(i*8))])
+	}
+	return res
+}
+
+func PopCountRightMostNonZero(x uint64)int{
+	res := 0
+	for x !=0{
+		x = x &(x-1)
+		res++
+	}
+	return res
+}
+
+func PopCountRightMost(x uint64)int{
+	res := 0
+	for x != 0{
+		if x & 1 == 0{
+			res++
+		}
+		x = x >> 1
+	}
+	return res
+}
+
 func Printpc(){
 	for i := range pc{
 		fmt.Print(pc[i])

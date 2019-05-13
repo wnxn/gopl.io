@@ -6,7 +6,7 @@ package popcount_test
 import (
 	"testing"
 
-	"github.com/adonovan/gopl.io/ch2/popcount"
+	"github.com/adonovan/gopl.io/ch2/ex3"
 )
 
 // -- Alternative implementations --
@@ -46,6 +46,30 @@ func PopCountByShifting(x uint64) int {
 func BenchmarkPopCount(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		popcount.PopCount(0x1234567890ABCDEF)
+	}
+}
+
+func BenchmarkPopCountLoop(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		popcount.PopCountLoop(0x1234567890ABCDEF)
+	}
+}
+
+func BenchmarkPopCountRightMostNonZero(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		popcount.PopCountRightMostNonZero(0x1234567890ABCDEF)
+	}
+}
+
+func BenchmarkPopCountRightMost(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		popcount.PopCountRightMost(0x1234567890ABCDEF)
+	}
+}
+
+func BenchmarkPrintpc(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		popcount.PopCountRightMost(0x1234567890ABCDEF)
 	}
 }
 
