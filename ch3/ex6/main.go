@@ -28,11 +28,28 @@ func main() {
 		for px := 0; px < width; px++ {
 			x := float64(px)/width*(xmax-xmin) + xmin
 			z := complex(x, y)
+			above := complex(x, y+1)
+			below := complex(x,y-1)
+			left := complex(x-1,y)
+			right := complex(x+1,y)
+			avg:=averageColor([]color.Color{mandelbrot(z),mandelbrot(above),mandelbrot(below),mandelbrot(left),
+				mandelbrot(right)})
 			// Image point (px, py) represents complex value z.
-			img.Set(px, py, mandelbrot(z))
+			img.Set(px, py, avg)
 		}
 	}
 	png.Encode(os.Stdout, img) // NOTE: ignoring errors
+}
+
+
+func averageColor(clrs []color.Color)color.Color{
+	var r,g,b,a int
+	for _,v:=range clrs{
+		ur,ug,ub,ua:= v.RGBA()
+		r,g,b,a=int(ur)+r,int(ug)+g,int(ub)+b,int(ua)+a
+	}
+	pixel := len(clrs)
+	return color.RGBA{uint8(r/pixel),uint8(g/pixel),uint8(b/pixel),uint8(a/pixel),}
 }
 
 func mandelbrot(z complex128) color.Color {
