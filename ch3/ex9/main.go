@@ -11,41 +11,57 @@ import (
 	"image"
 	"image/color"
 	"image/png"
+	"io"
+	"log"
 	"math/cmplx"
-	"os"
+	"net/http"
+	"strconv"
 )
-
+//http://localhost:8000/?height=500&width=200
 func main() {
+	http.HandleFunc("/",handler)
+	log.Fatal(http.ListenAndServe("localhost:8000",nil))
+}
+
+func handler(w http.ResponseWriter, r *http.Request){
+	w.Header().Set("Content-Type","image/png")
+	width,height := 1024,1024
+	swidth:=r.URL.Query().Get("width")
+	sheight:=r.URL.Query().Get("height")
+	var err error
+	if swidth != ""{
+		width,err =strconv.Atoi(swidth)
+		if err != nil{
+			log.Print(err)
+		}
+	}
+	if sheight !=""{
+		height,err = strconv.Atoi(sheight)
+		if err != nil{
+			log.Print(err)
+		}
+	}
+
+	fractal(width,height,w )
+}
+
+func fractal(width,height int,writer io.Writer){
 	const (
 		xmin, ymin, xmax, ymax = -2, -2, +2, +2
-		width, height          = 1024, 1024
 	)
 
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
 
 	for py := 0; py < height; py++ {
-		y := float64(py)/height*(ymax-ymin) + ymin
+		y := float64(py)/float64(height)*(ymax-ymin) + ymin
 		for px := 0; px < width; px++ {
-			x := float64(px)/width*(xmax-xmin) + xmin
+			x := float64(px)/float64(width)*(xmax-xmin) + xmin
 			z := complex(x, y)
-			above := complex(x, y+1)
-			below := complex(x,y-1)
-			left := complex(x-1,y)
-			right := complex(x+1,y)
-			img.Set(px, py, averageColor([]complex128{z,above,below,left,right}))
+			// Image point (px, py) represents complex value z.
+			img.Set(px, py, mandelbrot(z))
 		}
 	}
-	png.Encode(os.Stdout, img) // NOTE: ignoring errors
-}
-
-func averageColor(pixels []complex128) color.Color{
-	var ia,ib,ic,id int
-	for _, v:=range pixels{
-		a,b,c,d:=mandelbrot(v).RGBA()
-		ia,ib,ic,id = ia+int(a),ib+int(b),ic+int(c),id+int(d)
-	}
-	length := len(pixels)
-	return color.RGBA{uint8(ia/length),uint8(ib/length),uint8(ic/length),uint8(id/length)}
+	png.Encode(writer, img) // NOTE: ignoring errors
 }
 
 func mandelbrot(z complex128) color.Color {
