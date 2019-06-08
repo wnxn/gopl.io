@@ -9,10 +9,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/adonovan/gopl.io/ch4/github"
 	"log"
 	"os"
-
-	"github.com/adonovan/gopl.io/ch4/github"
+	"time"
 )
 
 //!+
@@ -23,8 +23,18 @@ func main() {
 	}
 	fmt.Printf("%d issues:\n", result.TotalCount)
 	for _, item := range result.Items {
-		fmt.Printf("#%-5d %9.9s %.55s\n",
-			item.Number, item.User.Login, item.Title)
+		timestr := ""
+		hours := time.Since(item.CreatedAt).Hours()
+		switch {
+		case hours < 24*30:
+			timestr = "less than a month"
+		case hours < 24 * 360:
+			timestr = "less than a year"
+		default:
+			timestr = "more than a year"
+		}
+		fmt.Printf("#%-5d %9.9s %.55s %s\n",
+			item.Number, item.User.Login, item.Title, timestr)
 	}
 }
 
