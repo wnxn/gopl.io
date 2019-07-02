@@ -8,10 +8,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/adonovan/gopl.io/ch5/links"
 	"log"
-	"os"
-
-	"gopl.io/ch5/links"
 )
 
 //!+breadthFirst
@@ -50,7 +48,7 @@ func crawl(url string) []string {
 func main() {
 	// Crawl the web breadth-first,
 	// starting from the command-line arguments.
-	breadthFirst(crawl, os.Args[1:])
+	breadthFirst(crawl, []string{"https://golang.org"})
 }
 
 //!-main

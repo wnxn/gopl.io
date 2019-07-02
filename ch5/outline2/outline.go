@@ -8,14 +8,12 @@ package main
 
 import (
 	"fmt"
-	"net/http"
-	"os"
-
 	"golang.org/x/net/html"
+	"net/http"
 )
 
 func main() {
-	for _, url := range os.Args[1:] {
+	for _, url := range []string{"https://golang.org"} {
 		outline(url)
 	}
 }
