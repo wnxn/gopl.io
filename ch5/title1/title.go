@@ -64,7 +64,7 @@ func title(url string) error {
 	visitNode := func(n *html.Node) {
 		if n.Type == html.ElementNode && n.Data == "title" &&
 			n.FirstChild != nil {
-			fmt.Println(n.FirstChild.Data)
+			fmt.Println(n.FirstChild.Data, n.FirstChild.Type)
 		}
 	}
 	forEachNode(doc, visitNode, nil)
@@ -74,7 +74,7 @@ func title(url string) error {
 //!-
 
 func main() {
-	for _, arg := range os.Args[1:] {
+	for _, arg := range []string{"https://golang.org"} {
 		if err := title(arg); err != nil {
 			fmt.Fprintf(os.Stderr, "title: %v\n", err)
 		}

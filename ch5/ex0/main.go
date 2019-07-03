@@ -8,7 +8,8 @@ import (
 )
 
 func main() {
-	readFromBytes([]byte("hello,世界！"))
+	//readFromBytes([]byte("hello,世界！"))
+	double(4)
 }
 
 func readFromBytes(str []byte)[]rune{
@@ -27,4 +28,9 @@ func readFromBytes(str []byte)[]rune{
 		fmt.Printf("get rune %q size %d\n",r,s)
 		res = append(res, r)
 	}
+}
+
+func double(x int)(result int){
+	defer func(){fmt.Printf("double(%d) = %d\n", x,result)}()
+	return x+x
 }
