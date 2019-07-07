@@ -3,19 +3,18 @@ package main
 import (
 	"fmt"
 	"golang.org/x/net/html"
-	"k8s.io/kubernetes/pkg/kubelet/kubeletconfig/util/log"
 	"net/http"
 )
 
 func main() {
 	resp,err:=http.Get("https://golang.org")
 	if err !=nil{
-		log.Errorf(err.Error())
+		fmt.Errorf(err.Error())
 	}
 	defer resp.Body.Close()
 	doc, err := html.Parse(resp.Body)
 	if err !=nil{
-		log.Errorf(err.Error())
+		fmt.Errorf(err.Error())
 	}
 	res := ElementsByTagName(doc, "a")
 	for _,v:=range res{
