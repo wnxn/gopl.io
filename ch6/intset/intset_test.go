@@ -3,24 +3,26 @@
 
 package intset
 
-import "fmt"
+import (
+	"testing"
+)
 
-func Example_one() {
+func TestExample_one(t *testing.T) {
 	//!+main
 	var x, y IntSet
 	x.Add(1)
 	x.Add(144)
 	x.Add(9)
-	fmt.Println(x.String()) // "{1 9 144}"
+	t.Log(x.String()) // "{1 9 144}"
 
 	y.Add(9)
 	y.Add(42)
-	fmt.Println(y.String()) // "{9 42}"
+	t.Log(y.String()) // "{9 42}"
 
 	x.UnionWith(&y)
-	fmt.Println(x.String()) // "{1 9 42 144}"
+	t.Log(x.String()) // "{1 9 42 144}"
 
-	fmt.Println(x.Has(9), x.Has(123)) // "true false"
+	t.Log(x.Has(9), x.Has(123)) // "true false"
 	//!-main
 
 	// Output:
@@ -30,7 +32,7 @@ func Example_one() {
 	// true false
 }
 
-func Example_two() {
+func TestExample_two(t *testing.T) {
 	var x IntSet
 	x.Add(1)
 	x.Add(144)
@@ -38,9 +40,9 @@ func Example_two() {
 	x.Add(42)
 
 	//!+note
-	fmt.Println(&x)         // "{1 9 42 144}"
-	fmt.Println(x.String()) // "{1 9 42 144}"
-	fmt.Println(x)          // "{[4398046511618 0 65536]}"
+	t.Log(&x)         // "{1 9 42 144}"
+	t.Log(x.String()) // "{1 9 42 144}"
+	t.Log(x)          // "{[4398046511618 0 65536]}"
 	//!-note
 
 	// Output:
