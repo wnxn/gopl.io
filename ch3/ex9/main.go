@@ -17,35 +17,36 @@ import (
 	"net/http"
 	"strconv"
 )
+
 //http://localhost:8000/?height=500&width=200
 func main() {
-	http.HandleFunc("/",handler)
-	log.Fatal(http.ListenAndServe("localhost:8000",nil))
+	http.HandleFunc("/", handler)
+	log.Fatal(http.ListenAndServe("localhost:8000", nil))
 }
 
-func handler(w http.ResponseWriter, r *http.Request){
-	w.Header().Set("Content-Type","image/png")
-	width,height := 1024,1024
-	swidth:=r.URL.Query().Get("width")
-	sheight:=r.URL.Query().Get("height")
+func handler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "image/png")
+	width, height := 1024, 1024
+	swidth := r.URL.Query().Get("width")
+	sheight := r.URL.Query().Get("height")
 	var err error
-	if swidth != ""{
-		width,err =strconv.Atoi(swidth)
-		if err != nil{
+	if swidth != "" {
+		width, err = strconv.Atoi(swidth)
+		if err != nil {
 			log.Print(err)
 		}
 	}
-	if sheight !=""{
-		height,err = strconv.Atoi(sheight)
-		if err != nil{
+	if sheight != "" {
+		height, err = strconv.Atoi(sheight)
+		if err != nil {
 			log.Print(err)
 		}
 	}
 
-	fractal(width,height,w )
+	fractal(width, height, w)
 }
 
-func fractal(width,height int,writer io.Writer){
+func fractal(width, height int, writer io.Writer) {
 	const (
 		xmin, ymin, xmax, ymax = -2, -2, +2, +2
 	)

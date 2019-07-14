@@ -29,15 +29,15 @@ import (
 //!+main
 
 var palette = []color.Color{color.White, color.Black,
-	color.RGBA{0x00, 0xFF,0x00,0xff}, color.RGBA{0xFF,0x00,0x00, 0xff},
-	color.RGBA{0x00,0x00,0xff, 0xff}}
+	color.RGBA{0x00, 0xFF, 0x00, 0xff}, color.RGBA{0xFF, 0x00, 0x00, 0xff},
+	color.RGBA{0x00, 0x00, 0xff, 0xff}}
 
 const (
 	whiteIndex = 0 // first color in palette
 	blackIndex = 1 // next color in palette
 	greenIndex = 2
-	redIndex = 3
-	blueIndex= 4
+	redIndex   = 3
+	blueIndex  = 4
 )
 
 func main() {

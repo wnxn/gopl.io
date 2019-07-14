@@ -11,18 +11,18 @@ func main() {
 	fmt.Printf("%v\n", string(squash([]byte(s))))
 }
 
-func squash(b []byte)[]byte{
+func squash(b []byte) []byte {
 	out := b[:0]
-	flag:=false
-	for _, v:=range b{
-		if flag == false{
+	flag := false
+	for _, v := range b {
+		if flag == false {
 			out = append(out, v)
-		}else{
+		} else {
 			out[len(out)-1] = ' '
 		}
-		if unicode.IsSpace(rune(v)){
+		if unicode.IsSpace(rune(v)) {
 			flag = true
-		}else{
+		} else {
 			flag = false
 		}
 

@@ -18,7 +18,7 @@ import (
 func main() {
 	const http_prefix = "http://"
 	for _, url := range os.Args[1:] {
-		if ! strings.HasPrefix(url, http_prefix){
+		if !strings.HasPrefix(url, http_prefix) {
 			url = http_prefix + url
 		}
 		resp, err := http.Get(url)
@@ -37,7 +37,7 @@ func main() {
 			os.Exit(1)
 		}
 		// ex1.9
-		fmt.Fprintf(os.Stdout, "status=%s\n",status)
+		fmt.Fprintf(os.Stdout, "status=%s\n", status)
 		//fmt.Printf("%s", b)
 	}
 }

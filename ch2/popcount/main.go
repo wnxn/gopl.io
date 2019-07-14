@@ -30,13 +30,13 @@ func PopCount(x uint64) int {
 		pc[byte(x>>(7*8))])
 }
 
-func Printpc(){
-	for i := range pc{
+func Printpc() {
+	for i := range pc {
 		fmt.Print(pc[i])
 	}
 }
 
-func PrintPcN(i int)int  {
+func PrintPcN(i int) int {
 	return int(pc[i])
 }
 

@@ -28,28 +28,29 @@ func main() {
 				fmt.Fprintf(os.Stderr, "dup2: %v\n", err)
 				continue
 			}
-			countLines(f, arg, counts,filenames)
+			countLines(f, arg, counts, filenames)
 			f.Close()
 		}
 	}
 	for line, n := range counts {
 		if n >= 1 {
-			fmt.Printf("%d\t%s\t%s\n", n, line, strings.Join(filenames[line],","))
+			fmt.Printf("%d\t%s\t%s\n", n, line, strings.Join(filenames[line], ","))
 		}
 	}
 }
 
-func countLines(f *os.File, filename string,  counts map[string]int, filenames map[string][]string) {
+func countLines(f *os.File, filename string, counts map[string]int, filenames map[string][]string) {
 	input := bufio.NewScanner(f)
 	dupCurrentFile := make(map[string]int)
 	for input.Scan() {
 		counts[input.Text()]++
 		dupCurrentFile[input.Text()]++
-		if dupCurrentFile[input.Text()] == 1{
+		if dupCurrentFile[input.Text()] == 1 {
 			filenames[input.Text()] = append(filenames[input.Text()], filename)
 		}
 	}
 	// NOTE: ignoring potential errors from input.Err()
 }
+
 //wangxin
 //!-

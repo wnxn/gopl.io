@@ -2,58 +2,57 @@ package main
 
 import "testing"
 
-func TestTrans(t *testing.T){
-	testcases := []struct{
-		input string
+func TestTrans(t *testing.T) {
+	testcases := []struct {
+		input  string
 		output string
 	}{
 		{
-			input: "$foo",
+			input:  "$foo",
 			output: "gpp",
 		},
 		{
-			input: "$$foo",
+			input:  "$$foo",
 			output: "hqq",
 		},
 		{
-			input: "$",
+			input:  "$",
 			output: "",
 		},
 		{
-			input: "$$",
+			input:  "$$",
 			output: "",
 		},
 	}
-	for _,v:=range testcases{
+	for _, v := range testcases {
 		res := Trans(v.input)
-		if res != v.output{
-			t.Errorf("input %s, expect %s, but actually %s\n",v.input, v.output,res)
+		if res != v.output {
+			t.Errorf("input %s, expect %s, but actually %s\n", v.input, v.output, res)
 		}
 	}
 }
 
-func TestExpand(t *testing.T){
-	testcases := []struct{
-		input string
-		function func(string)string
-		output string
+func TestExpand(t *testing.T) {
+	testcases := []struct {
+		input    string
+		function func(string) string
+		output   string
 	}{
 		{
-			input:"dwad$$foo$qwe",
+			input:    "dwad$$foo$qwe",
 			function: Trans,
-			output:"dwadhqqrxf",
+			output:   "dwadhqqrxf",
 		},
 		{
-			input:"dwad$foo",
-			function:Trans,
-			output:"dwadgpp",
+			input:    "dwad$foo",
+			function: Trans,
+			output:   "dwadgpp",
 		},
 	}
-	for _,v:=range testcases{
-		res := Expand(v.input,v.function)
-		if res != v.output{
+	for _, v := range testcases {
+		res := Expand(v.input, v.function)
+		if res != v.output {
 			t.Errorf("input %s, output %s, but actually %s\n", v.input, v.output, res)
 		}
 	}
 }
-

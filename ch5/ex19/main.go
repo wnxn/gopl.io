@@ -6,15 +6,15 @@ func main() {
 	handleRecover()
 }
 
-func handleRecover(){
-	defer func(){
-		p:= recover()
+func handleRecover() {
+	defer func() {
+		p := recover()
 		fmt.Println(p)
 	}()
 	nonZeroValue()
 }
 
-func nonZeroValue(){
+func nonZeroValue() {
 	str := "nonZero"
 	panic(str)
 

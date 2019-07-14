@@ -23,20 +23,20 @@ func main() {
 		go fetch(url, ch) // start a goroutine
 	}
 	filename := "result"
-	fopen, err := os.OpenFile(filename,os.O_RDWR|os.O_CREATE | os.O_APPEND, 0755)
-	if err != nil{
-		if os.IsExist(err){
+	fopen, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0755)
+	if err != nil {
+		if os.IsExist(err) {
 			fopen, _ = os.Create(filename)
 		}
 		fmt.Print(err)
 	}
-	if err != nil{
+	if err != nil {
 		fmt.Print(err)
 	}
 	for range os.Args[1:] {
-		fmt.Fprintf(fopen,"%s\n",<-ch) // receive from channel ch
+		fmt.Fprintf(fopen, "%s\n", <-ch) // receive from channel ch
 	}
-	fmt.Fprintf(fopen,"%.2fs elapsed\n", time.Since(start).Seconds())
+	fmt.Fprintf(fopen, "%.2fs elapsed\n", time.Since(start).Seconds())
 	fopen.Close()
 }
 

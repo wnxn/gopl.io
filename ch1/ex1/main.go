@@ -6,8 +6,8 @@ import (
 )
 
 func main() {
-	s,sep := "",""
-	for _, value := range os.Args{
+	s, sep := "", ""
+	for _, value := range os.Args {
 		s += sep + value
 		sep = " "
 	}

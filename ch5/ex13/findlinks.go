@@ -39,17 +39,17 @@ func breadthFirst(f func(item string) []string, worklist []string) {
 //!+crawl
 func crawl(urlStr string) []string {
 	normalUrl, err := url.Parse(urlStr)
-	if err != nil{
+	if err != nil {
 		return []string{}
 	}
-	err = os.MkdirAll(path.Join("tmp", normalUrl.Host),os.ModePerm)
-	if err != nil && os.IsNotExist(err){
+	err = os.MkdirAll(path.Join("tmp", normalUrl.Host), os.ModePerm)
+	if err != nil && os.IsNotExist(err) {
 		log.Println(err.Error())
 		return []string{}
 	}
-	file, err :=os.Create(path.Join("tmp", normalUrl.Host, strings.ReplaceAll(strings.Trim(normalUrl.Path,"/"),"/",
+	file, err := os.Create(path.Join("tmp", normalUrl.Host, strings.ReplaceAll(strings.Trim(normalUrl.Path, "/"), "/",
 		"-")))
-	if err != nil{
+	if err != nil {
 		log.Println(err.Error())
 	}
 	defer file.Close()
@@ -71,4 +71,5 @@ func main() {
 	//dirPath := path.Join(os.Getenv("GOPATH") ,"src/github.com/adonovan/gopl.io")
 	breadthFirst(crawl, []string{"https://golang.org"})
 }
+
 //!-main

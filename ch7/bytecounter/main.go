@@ -7,19 +7,19 @@
 package main
 
 import (
-	"fmt"
 	"bufio"
+	"bytes"
 	"flag"
-	"os"
+	"fmt"
 	"github.com/golang/glog"
 	"io/ioutil"
-	"bytes"
+	"os"
 )
 
 //!+bytecounter
-func init(){
+func init() {
 	flag.Set("logtostderr", "true")
-	flag.Set("v","5")
+	flag.Set("v", "5")
 }
 
 type ByteCounter int
@@ -32,28 +32,28 @@ func (c *ByteCounter) Write(p []byte) (int, error) {
 //!-bytecounter
 type WordCounter int
 
-func (c *WordCounter) Write(p []byte)(int, error){
+func (c *WordCounter) Write(p []byte) (int, error) {
 	scanner := bufio.NewScanner(bytes.NewReader(p))
 	scanner.Split(bufio.ScanWords)
 	count := 0
-	for scanner.Scan(){
+	for scanner.Scan() {
 		count++
 	}
 	*c = WordCounter(count)
-	return count,scanner.Err()
+	return count, scanner.Err()
 }
 
 type LineCounter int
 
-func (c *LineCounter)Write(p []byte)(int, error){
+func (c *LineCounter) Write(p []byte) (int, error) {
 	scanner := bufio.NewScanner(bytes.NewReader(p))
 	scanner.Split(bufio.ScanLines)
-	count :=0
-	for scanner.Scan(){
+	count := 0
+	for scanner.Scan() {
 		count++
 	}
 	*c = LineCounter(count)
-	return count,scanner.Err()
+	return count, scanner.Err()
 }
 
 func main() {
@@ -78,9 +78,9 @@ func main() {
 	fmt.Fprintf(&w, "hello, %s", sentence)
 	fmt.Println(w)
 
-	filepath := os.Getenv("GOPATH")+"/src/github.com/adonovan/gopl.io/poem.txt"
+	filepath := os.Getenv("GOPATH") + "/src/github.com/adonovan/gopl.io/poem.txt"
 	p, err := ioutil.ReadFile(filepath)
-	if err != nil{
+	if err != nil {
 		glog.Fatal(err)
 	}
 	var l LineCounter

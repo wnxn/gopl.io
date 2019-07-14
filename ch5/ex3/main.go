@@ -16,7 +16,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-func fetch(url string)io.Reader{
+func fetch(url string) io.Reader {
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "fetch: %v\n", err)
@@ -26,7 +26,7 @@ func fetch(url string)io.Reader{
 }
 
 func main() {
-	doc, err := html.Parse(fetch("https://golang.org" ))
+	doc, err := html.Parse(fetch("https://golang.org"))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "findlinks1: %v\n", err)
 		os.Exit(1)
@@ -44,10 +44,10 @@ func visit(links []string, n *html.Node) []string {
 	if n.Type == html.ElementNode && (n.Data == "script" || n.Data == "style") {
 		fmt.Println(n.Data)
 	}
-	if n.FirstChild != nil{
+	if n.FirstChild != nil {
 		links = visit(links, n.FirstChild)
 	}
-	if n.NextSibling != nil{
+	if n.NextSibling != nil {
 		links = visit(links, n.NextSibling)
 	}
 

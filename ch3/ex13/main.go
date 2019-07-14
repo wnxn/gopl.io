@@ -2,12 +2,11 @@ package main
 
 import "fmt"
 
-const(
-	x = 1000
+const (
+	x  = 1000
 	KB = x
-	MB = KB *x
-	GB = MB *x
-
+	MB = KB * x
+	GB = MB * x
 )
 
 func main() {

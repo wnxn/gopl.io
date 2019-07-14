@@ -57,8 +57,8 @@ func TestIntSet_Len(t *testing.T) {
 	x.Add(144)
 	x.Add(9)
 	x.Add(42)
-	if res :=x.Len();res != 4{
-		t.Errorf("Len expect 4, but actually %d",res)
+	if res := x.Len(); res != 4 {
+		t.Errorf("Len expect 4, but actually %d", res)
 	}
 
 }
@@ -69,12 +69,12 @@ func TestIntSet_Remove(t *testing.T) {
 	x.Add(144)
 	x.Add(9)
 	x.Add(42)
-	if res :=x.Has(9); res != true{
-		t.Errorf("expect true, but actually %t",res)
+	if res := x.Has(9); res != true {
+		t.Errorf("expect true, but actually %t", res)
 	}
 	x.Remove(9)
-	if res :=x.Has(9); res != false{
-		t.Errorf("expect false, but actually %t",res)
+	if res := x.Has(9); res != false {
+		t.Errorf("expect false, but actually %t", res)
 	}
 }
 
@@ -84,12 +84,12 @@ func TestIntSet_Clear(t *testing.T) {
 	x.Add(144)
 	x.Add(9)
 	x.Add(42)
-	if res :=x.Len(); res != 4{
-		t.Errorf("expect true, but actually %d",res)
+	if res := x.Len(); res != 4 {
+		t.Errorf("expect true, but actually %d", res)
 	}
 	x.Clear()
-	if res :=x.Len(); res != 0{
-		t.Errorf("expect false, but actually %d",res)
+	if res := x.Len(); res != 0 {
+		t.Errorf("expect false, but actually %d", res)
 	}
 }
 
@@ -99,21 +99,21 @@ func TestIntSet_Copy(t *testing.T) {
 	x.Add(144)
 	x.Add(9)
 	x.Add(42)
-	if res :=x.Len(); res != 4{
-		t.Errorf("expect 4, but actually %d",res)
+	if res := x.Len(); res != 4 {
+		t.Errorf("expect 4, but actually %d", res)
 	}
 
-	y:=x.Copy()
-	if res :=y.Len(); res != 4{
-		t.Errorf("expect 4, but actually %d",res)
+	y := x.Copy()
+	if res := y.Len(); res != 4 {
+		t.Errorf("expect 4, but actually %d", res)
 	}
 
 	x.Clear()
-	if res :=x.Len(); res != 0{
-		t.Errorf("expect 0, but actually %d",res)
+	if res := x.Len(); res != 0 {
+		t.Errorf("expect 0, but actually %d", res)
 	}
-	if res :=y.Len(); res != 4{
-		t.Errorf("expect 4, but actually %d",res)
+	if res := y.Len(); res != 4 {
+		t.Errorf("expect 4, but actually %d", res)
 	}
 }
 
@@ -123,9 +123,9 @@ func TestIntSet_AddAll(t *testing.T) {
 	x.Add(144)
 	x.Add(9)
 	x.Add(42)
-	x.AddAll(9,10,34)
-	if res :=x.Len(); res != 6{
-		t.Errorf("expect 6, but actually %d",res)
+	x.AddAll(9, 10, 34)
+	if res := x.Len(); res != 6 {
+		t.Errorf("expect 6, but actually %d", res)
 	}
 }
 
@@ -143,7 +143,7 @@ func TestIntSet_DifferenceWith(t *testing.T) {
 	y.Add(422)
 
 	x.DifferenceWith(&y)
-	if res :=x.Len(); res != 6{
-		t.Errorf("expect 6, but actually %d",res)
+	if res := x.Len(); res != 6 {
+		t.Errorf("expect 6, but actually %d", res)
 	}
 }

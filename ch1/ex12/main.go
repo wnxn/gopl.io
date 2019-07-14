@@ -33,18 +33,18 @@ func main() {
 
 // handler echoes the Path component of the requested URL.
 func handler(w http.ResponseWriter, r *http.Request) {
-	cycles:= r.URL.Query().Get("cycles")
+	cycles := r.URL.Query().Get("cycles")
 	var icycles int
 	icycles, err := strconv.Atoi(cycles)
-	if err != nil{
+	if err != nil {
 		icycles = 5
 	}
-	lissajous(w,icycles)
+	lissajous(w, icycles)
 }
 
 func lissajous(out io.Writer, mycycles int) {
 	const (
-		    // number of complete x oscillator revolutions
+		// number of complete x oscillator revolutions
 		res     = 0.001 // angular resolution
 		size    = 100   // image canvas covers [-size..+size]
 		nframes = 64    // number of animation frames

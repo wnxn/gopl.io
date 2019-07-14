@@ -27,11 +27,11 @@ const (
 var sin30, cos30 = math.Sin(angle), math.Cos(angle) // sin(30°), cos(30°)
 
 func main() {
-	handler(os.Stdout,nil)
+	handler(os.Stdout, nil)
 }
 
-func handler(w io.Writer,r *http.Request){
-	fmt.Fprintf(w,"<svg xmlns='http://www.w3.org/2000/svg' "+
+func handler(w io.Writer, r *http.Request) {
+	fmt.Fprintf(w, "<svg xmlns='http://www.w3.org/2000/svg' "+
 		"style='stroke: grey; fill: white; stroke-width: 0.7' "+
 		"width='%d' height='%d'>", width, height)
 	for i := 0; i < cells; i++ {
@@ -42,11 +42,11 @@ func handler(w io.Writer,r *http.Request){
 			dx, dy := corner(i+1, j+1)
 			//height:=f(float64(i),float64(j))
 			color := 0x0000ff
-			fmt.Fprintf(w,"<polygon points='%g,%g %g,%g %g,%g %g,%g' style='fill:#%x'/>\n",
+			fmt.Fprintf(w, "<polygon points='%g,%g %g,%g %g,%g %g,%g' style='fill:#%x'/>\n",
 				ax, ay, bx, by, cx, cy, dx, dy, color)
 		}
 	}
-	fmt.Fprintln(w,"</svg>")
+	fmt.Fprintln(w, "</svg>")
 }
 
 func corner(i, j int) (float64, float64) {
@@ -56,8 +56,8 @@ func corner(i, j int) (float64, float64) {
 
 	// Compute surface height z.
 	z := f(x, y)
-	if z == math.Inf(1) || z == math.Inf(-1){
-		return math.NaN(),math.NaN()
+	if z == math.Inf(1) || z == math.Inf(-1) {
+		return math.NaN(), math.NaN()
 	}
 	// Project (x,y,z) isometrically onto 2-D SVG canvas (sx,sy).
 	sx := width/2 + (x-y)*cos30*xyscale
@@ -67,7 +67,7 @@ func corner(i, j int) (float64, float64) {
 
 func f(x, y float64) float64 {
 	//r := math.Hypot(x, y) // distance from (0,0)
-	r :=   math.Hypot(x,y)
+	r := math.Hypot(x, y)
 	return math.Sin(r) / r
 
 }

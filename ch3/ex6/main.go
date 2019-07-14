@@ -29,23 +29,23 @@ func main() {
 			x := float64(px)/width*(xmax-xmin) + xmin
 			z := complex(x, y)
 			above := complex(x, y+1)
-			below := complex(x,y-1)
-			left := complex(x-1,y)
-			right := complex(x+1,y)
-			img.Set(px, py, averageColor([]complex128{z,above,below,left,right}))
+			below := complex(x, y-1)
+			left := complex(x-1, y)
+			right := complex(x+1, y)
+			img.Set(px, py, averageColor([]complex128{z, above, below, left, right}))
 		}
 	}
 	png.Encode(os.Stdout, img) // NOTE: ignoring errors
 }
 
-func averageColor(pixels []complex128) color.Color{
-	var ia,ib,ic,id int
-	for _, v:=range pixels{
-		a,b,c,d:=mandelbrot(v).RGBA()
-		ia,ib,ic,id = ia+int(a),ib+int(b),ic+int(c),id+int(d)
+func averageColor(pixels []complex128) color.Color {
+	var ia, ib, ic, id int
+	for _, v := range pixels {
+		a, b, c, d := mandelbrot(v).RGBA()
+		ia, ib, ic, id = ia+int(a), ib+int(b), ic+int(c), id+int(d)
 	}
 	length := len(pixels)
-	return color.RGBA{uint8(ia/length),uint8(ib/length),uint8(ic/length),uint8(id/length)}
+	return color.RGBA{uint8(ia / length), uint8(ib / length), uint8(ic / length), uint8(id / length)}
 }
 
 func mandelbrot(z complex128) color.Color {

@@ -10,15 +10,15 @@ import (
 	"strings"
 )
 
-type item struct{
-	Title string
+type item struct {
+	Title  string
 	Poster string
 }
 
-func GetItem(name string)(*item, error){
+func GetItem(name string) (*item, error) {
 	request := fmt.Sprintf("http://www.omdbapi.com/?t=%s", name)
 	resp, err := http.Post(request, "application/octet-stream", strings.NewReader(""))
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	i := &item{}
@@ -26,14 +26,14 @@ func GetItem(name string)(*item, error){
 	return i, err
 }
 
-func GetImage(i item)error{
-	fmt.Printf("url = %s\n",i.Poster)
-	resp, err := http.Post(i.Poster, "image/jpeg",strings.NewReader(""))
-	if err != nil{
-		return  err
+func GetImage(i item) error {
+	fmt.Printf("url = %s\n", i.Poster)
+	resp, err := http.Post(i.Poster, "image/jpeg", strings.NewReader(""))
+	if err != nil {
+		return err
 	}
-	file,err:= os.Create(i.Title+".jpg")
-	if err != nil{
+	file, err := os.Create(i.Title + ".jpg")
+	if err != nil {
 		return err
 	}
 	bufio.NewWriter(file)
@@ -41,15 +41,15 @@ func GetImage(i item)error{
 	return nil
 }
 
-func main(){
-	filmName:="titanic"
-	i, err :=GetItem(filmName)
-	if err !=nil{
+func main() {
+	filmName := "titanic"
+	i, err := GetItem(filmName)
+	if err != nil {
 		fmt.Printf(err.Error())
 	}
-	fmt.Printf("%+v\n",i)
+	fmt.Printf("%+v\n", i)
 	err = GetImage(*i)
-	if err !=nil{
+	if err != nil {
 		fmt.Printf(err.Error())
 	}
 }

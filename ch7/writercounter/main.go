@@ -1,25 +1,25 @@
 package main
 
 import (
-	"io"
-	"fmt"
 	"bytes"
+	"fmt"
 	"github.com/golang/glog"
+	"io"
 )
 
-type MyWriter struct{
+type MyWriter struct {
 	cnt int64
-	w io.Writer
+	w   io.Writer
 }
 
-func CountingWriter(w io.Writer)(io.Writer, *int64){
+func CountingWriter(w io.Writer) (io.Writer, *int64) {
 	res := MyWriter{0, w}
 	return &res, &res.cnt
 }
 
-func (s *MyWriter)Write(p []byte)(int, error){
+func (s *MyWriter) Write(p []byte) (int, error) {
 	num, err := s.w.Write(p)
-	if err == nil{
+	if err == nil {
 		s.cnt += int64(num)
 	}
 	return num, err

@@ -16,7 +16,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-func fetch(url string)io.Reader{
+func fetch(url string) io.Reader {
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "fetch: %v\n", err)
@@ -50,13 +50,13 @@ func visit(links []string, n *html.Node) []string {
 			}
 		}
 	}
-		//for c := n.FirstChild; c != nil; c = c.NextSibling {
-		//	links = visit(links, c)
-		//}
-	if n.FirstChild != nil{
+	//for c := n.FirstChild; c != nil; c = c.NextSibling {
+	//	links = visit(links, c)
+	//}
+	if n.FirstChild != nil {
 		links = visit(links, n.FirstChild)
 	}
-	if n.NextSibling != nil{
+	if n.NextSibling != nil {
 		links = visit(links, n.NextSibling)
 	}
 

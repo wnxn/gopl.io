@@ -33,27 +33,26 @@ func main() {
 // comma inserts commas in a non-negative decimal integer string.
 func comma(s string) string {
 	var flag byte
-	fraction:=""
+	fraction := ""
 	if len(s) > 1 {
-		if s[0]=='-' || s[0]=='+'{
+		if s[0] == '-' || s[0] == '+' {
 			flag = s[0]
 			s = s[1:]
 		}
 		index := strings.LastIndex(s, ".")
-		if index >=0{
+		if index >= 0 {
 
-			s, fraction= s[:index], s[index:]
+			s, fraction = s[:index], s[index:]
 		}
 	}
 	var buf bytes.Buffer
-	for i:=0; i<len(s);i++{
+	for i := 0; i < len(s); i++ {
 		buf.WriteByte(s[i])
-		if i!=(len(s)-1)  && (len(s)-1-i)%3==0{
+		if i != (len(s)-1) && (len(s)-1-i)%3 == 0 {
 			buf.WriteRune(',')
 		}
 	}
-	return string(flag) + buf.String()+fraction
+	return string(flag) + buf.String() + fraction
 }
-
 
 //!-

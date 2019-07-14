@@ -14,7 +14,7 @@ import (
 
 const (
 	width, height = 600, 320            // canvas size in pixels
-	cells         = 2                 // number of grid cells
+	cells         = 2                   // number of grid cells
 	xyrange       = 30.0                // axis ranges (-xyrange..+xyrange)
 	xyscale       = width / 2 / xyrange // pixels per x or y unit
 	zscale        = height * 0.4        // pixels per z unit
@@ -40,7 +40,7 @@ func main() {
 	fmt.Println("</svg>")
 }
 
-func corner(i, j int) (sx,sy float64) {
+func corner(i, j int) (sx, sy float64) {
 	// Find point (x,y) at corner of cell (i,j).
 	x := xyrange * (float64(i)/cells - 0.5)
 	y := xyrange * (float64(j)/cells - 0.5)

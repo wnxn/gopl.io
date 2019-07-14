@@ -14,7 +14,7 @@ import (
 
 const (
 	width, height = 600, 320            // canvas size in pixels
-	cells         = 2                 // number of grid cells
+	cells         = 2                   // number of grid cells
 	xyrange       = 30.0                // axis ranges (-xyrange..+xyrange)
 	xyscale       = width / 2 / xyrange // pixels per x or y unit
 	zscale        = height * 0.4        // pixels per z unit

@@ -7,29 +7,29 @@ import (
 	"fmt"
 )
 
-var types  = flag.String("types", "sha256", "support sha256, sha384, sha512")
+var types = flag.String("types", "sha256", "support sha256, sha384, sha512")
 
 func main() {
 	flag.Parse()
 	str := ""
 	fmt.Scanln(&str)
-	fmt.Printf("%x\n", handler(types,str))
+	fmt.Printf("%x\n", handler(types, str))
 }
 
-func handler(types *string, str string)string{
+func handler(types *string, str string) string {
 	var bytes []byte
 	switch *types {
 	case "sha256":
-		for _,v:=range sha256.Sum256([]byte(str)){
-			bytes = append(bytes,v)
+		for _, v := range sha256.Sum256([]byte(str)) {
+			bytes = append(bytes, v)
 		}
 	case "sha384":
-		for _,v:=range sha512.Sum384([]byte(str)){
-			bytes = append(bytes,v)
+		for _, v := range sha512.Sum384([]byte(str)) {
+			bytes = append(bytes, v)
 		}
 	case "sha512":
-		for _,v:=range sha512.Sum512([]byte(str)){
-			bytes=append(bytes,v)
+		for _, v := range sha512.Sum512([]byte(str)) {
+			bytes = append(bytes, v)
 		}
 	}
 	return string(bytes)

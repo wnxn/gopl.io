@@ -28,7 +28,7 @@ func main() {
 		switch {
 		case hours < 24*30:
 			timestr = "less than a month"
-		case hours < 24 * 360:
+		case hours < 24*360:
 			timestr = "less than a year"
 		default:
 			timestr = "more than a year"

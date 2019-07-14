@@ -32,9 +32,9 @@ func main() {
 // comma inserts commas in a non-negative decimal integer string.
 func comma(s string) string {
 	var buf bytes.Buffer
-	for i:=0; i<len(s);i++{
+	for i := 0; i < len(s); i++ {
 		buf.WriteByte(s[i])
-		if i!=(len(s)-1)  && (len(s)-1-i)%3==0{
+		if i != (len(s)-1) && (len(s)-1-i)%3 == 0 {
 			buf.WriteRune(',')
 		}
 	}

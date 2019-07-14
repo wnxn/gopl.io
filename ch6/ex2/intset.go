@@ -71,10 +71,10 @@ func (s *IntSet) String() string {
 }
 
 //!-string
-func (s *IntSet)Len()int{
+func (s *IntSet) Len() int {
 	res := 0
-	for _, word := range s.words{
-		for word != 0{
+	for _, word := range s.words {
+		for word != 0 {
 			word &= word - 1
 			res++
 		}
@@ -82,26 +82,26 @@ func (s *IntSet)Len()int{
 	return res
 }
 
-func (s *IntSet)Remove(x int){
+func (s *IntSet) Remove(x int) {
 	word, bit := x/64, uint(x%64)
-	s.words[word] =(s.words[word] &^ (1<<bit))
+	s.words[word] = (s.words[word] &^ (1 << bit))
 }
 
-func (s *IntSet)Clear(){
-	for i := range s.words{
-		s.words[i]=0
+func (s *IntSet) Clear() {
+	for i := range s.words {
+		s.words[i] = 0
 	}
 }
 
-func (s *IntSet)Copy()*IntSet{
+func (s *IntSet) Copy() *IntSet {
 	res := &IntSet{}
-	res.words = make([]uint64,len(s.words))
-	copy(res.words,s.words)
+	res.words = make([]uint64, len(s.words))
+	copy(res.words, s.words)
 	return res
 }
 
-func (s *IntSet)AddAll(a ...int){
-	for _,v:=range a{
+func (s *IntSet) AddAll(a ...int) {
+	for _, v := range a {
 		s.Add(v)
 	}
 }

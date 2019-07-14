@@ -20,8 +20,8 @@ func main() {
 	counts := make(map[rune]int)    // counts of Unicode characters
 	var utflen [utf8.UTFMax + 1]int // count of lengths of UTF-8 encodings
 	invalid := 0                    // count of invalid UTF-8 characters
-	letters:=0 // count of letters
-	digits := 0 // count of digits
+	letters := 0                    // count of letters
+	digits := 0                     // count of digits
 
 	in := bufio.NewReader(os.Stdin)
 	for {
@@ -39,10 +39,10 @@ func main() {
 		}
 		counts[r]++
 		utflen[n]++
-		if unicode.IsLetter(r){
+		if unicode.IsLetter(r) {
 			letters++
 		}
-		if unicode.IsDigit(r){
+		if unicode.IsDigit(r) {
 			digits++
 		}
 	}
@@ -59,7 +59,7 @@ func main() {
 	if invalid > 0 {
 		fmt.Printf("\n%d invalid UTF-8 characters\n", invalid)
 	}
-	fmt.Printf("letters = %d, digits = %d\n", letters,digits)
+	fmt.Printf("letters = %d, digits = %d\n", letters, digits)
 }
 
 //!-

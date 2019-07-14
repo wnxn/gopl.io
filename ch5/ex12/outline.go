@@ -30,14 +30,14 @@ func outline(url string) error {
 	if err != nil {
 		return err
 	}
-	startElement := func (n *html.Node) {
+	startElement := func(n *html.Node) {
 		if n.Type == html.ElementNode {
 			fmt.Printf("%*s<%s>\n", depth*2, "", n.Data)
 			depth++
 		}
 	}
 
-	endElement := func (n *html.Node) {
+	endElement := func(n *html.Node) {
 		if n.Type == html.ElementNode {
 			depth--
 			fmt.Printf("%*s</%s>\n", depth*2, "", n.Data)

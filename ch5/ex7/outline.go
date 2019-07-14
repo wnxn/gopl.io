@@ -41,9 +41,9 @@ func outline(url string) error {
 // pre is called before the children are visited (preorder) and
 // post is called after (postorder).
 func forEachNode(n *html.Node, pre, post func(n *html.Node, hasChild bool)) {
-	hasChild := (n.FirstChild!=nil)
+	hasChild := (n.FirstChild != nil)
 	if pre != nil {
-		pre(n,hasChild)
+		pre(n, hasChild)
 	}
 
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
@@ -51,7 +51,7 @@ func forEachNode(n *html.Node, pre, post func(n *html.Node, hasChild bool)) {
 	}
 
 	if post != nil {
-		post(n,hasChild)
+		post(n, hasChild)
 	}
 }
 
@@ -62,7 +62,7 @@ var depth int
 
 func startElement(n *html.Node, hasChild bool) {
 	sep := ""
-	if ! hasChild {
+	if !hasChild {
 		sep = "/"
 	}
 	if n.Type == html.ElementNode || n.Type == html.TextNode {
@@ -72,11 +72,11 @@ func startElement(n *html.Node, hasChild bool) {
 }
 
 func endElement(n *html.Node, hasChild bool) {
-	if hasChild == false{
+	if hasChild == false {
 		depth--
 		return
 	}
-	if n.Type == html.ElementNode  || n.Type == html.TextNode{
+	if n.Type == html.ElementNode || n.Type == html.TextNode {
 		depth--
 		fmt.Printf("%*s</%s>\n", depth*2, "", n.Data)
 	}
