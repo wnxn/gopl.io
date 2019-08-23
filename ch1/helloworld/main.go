@@ -9,6 +9,10 @@ package main
 
 import "fmt"
 
+var test map[int]string = map[int]string{
+	4:"he",
+}
+
 func main() {
 	fmt.Println("Hello, 世界")
 }

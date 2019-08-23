@@ -12,6 +12,7 @@ import (
 	"log"
 	"net"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -38,7 +39,7 @@ func handleConn(c net.Conn, ch chan<-int) {
 //!-
 
 func main() {
-	l, err := net.Listen("tcp", "localhost:8000")
+	l, err := net.ListenTCP("tcp4", &net.TCPAddr{[]byte{0,0,0,0}, 8000, ""})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -48,14 +49,24 @@ func main() {
 			fmt.Printf("main: %d bytes\n", <-ch2)
 		}
 	}(ch)
+
 	for {
-		conn, err := l.Accept()
+		conn, err := l.AcceptTCP()
+		var wg sync.WaitGroup
 		if err != nil {
 			log.Print(err) // e.g., connection aborted
 			continue
 		}
-		go handleConn(conn,ch)
-
+		go func(){
+			wg.Add(1)
+			defer wg.Done()
+			handleConn(conn,ch)
+		}()
+		go func(){
+			wg.Wait()
+			fmt.Println("close write")
+			conn.CloseWrite()
+		}()
 	}
 
 }

@@ -1,9 +1,9 @@
 // Copyright © 2016 Alan A. A. Donovan & Brian W. Kernighan.
 // License: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
-// See page 224.
+// See page 223.
 
-// Reverb2 is a TCP server that simulates an echo.
+// Reverb1 is a TCP server that simulates an echo.
 package main
 
 import (
@@ -15,8 +15,8 @@ import (
 	"time"
 )
 
+//!+
 func echo(c net.Conn, shout string, delay time.Duration) {
-
 	fmt.Fprintln(c, "\t", strings.ToUpper(shout))
 	time.Sleep(delay)
 	fmt.Fprintln(c, "\t", shout)
@@ -24,12 +24,24 @@ func echo(c net.Conn, shout string, delay time.Duration) {
 	fmt.Fprintln(c, "\t", strings.ToLower(shout))
 }
 
-//!+
-func handleConn(c net.Conn, ch chan<-int) {
+func handleConn(c net.Conn) {
 	input := bufio.NewScanner(c)
-	for input.Scan() {
-		go echo(c, input.Text(), 1*time.Second)
-		ch<-len(input.Text())
+	inputChan := make(chan string)
+	go func(){
+		for input.Scan(){
+			inputChan <- input.Text()
+		}
+	}()
+	ticker := time.NewTicker(1*time.Second)
+	defer ticker.Stop()
+	for i:=0;i<10;i++{
+		select{
+		case <-ticker.C:
+			fmt.Printf("Nothing in %d seconds\n", i)
+		case str :=<-inputChan:
+			echo(c, str, 1*time.Second)
+			i = 0
+		}
 	}
 	// NOTE: ignoring potential errors from input.Err()
 	c.Close()
@@ -42,20 +54,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	ch := make(chan int)
-	go func(ch2 <-chan int){
-		for {
-			fmt.Printf("main: %d bytes\n", <-ch2)
-		}
-	}(ch)
 	for {
 		conn, err := l.Accept()
 		if err != nil {
 			log.Print(err) // e.g., connection aborted
 			continue
 		}
-		go handleConn(conn,ch)
-
+		go handleConn(conn)
 	}
-
 }

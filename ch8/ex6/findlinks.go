@@ -11,29 +11,47 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-	"log"
-	"os"
-
 	"gopl.io/ch5/links"
+	"log"
 )
 
-func crawl(url string) []string {
+var (
+	depth = flag.Int("depth", 1, "")
+	link = flag.String("link", "https://www.sina.com/","")
+)
+
+type InternetLink struct{
+	link string
+	depth int
+}
+
+func init(){
+	flag.Parse()
+}
+
+func crawl(url InternetLink) (res []InternetLink) {
 	fmt.Println(url)
-	list, err := links.Extract(url)
+	list, err := links.Extract(url.link)
 	if err != nil {
 		log.Print(err)
 	}
-	return list
+
+	for _,v:=range list{
+		res = append(res, InternetLink{v,url.depth+1})
+	}
+	return res
 }
 
 //!+
 func main() {
-	worklist := make(chan []string)  // lists of URLs, may have duplicates
-	unseenLinks := make(chan string) // de-duplicated URLs
+	fmt.Println(*depth)
+	worklist := make(chan []InternetLink)  // lists of URLs, may have duplicates
+	unseenLinks := make(chan InternetLink) // de-duplicated URLs
 
 	// Add command-line arguments to worklist.
-	go func() { worklist <- os.Args[1:] }()
+	go func() { worklist <- []InternetLink{{*link, 0}} }()
 
 	// Create 20 crawler goroutines to fetch each unseen link.
 	for i := 0; i < 40; i++ {
@@ -47,10 +65,10 @@ func main() {
 	i:=0
 	// The main goroutine de-duplicates worklist items
 	// and sends the unseen ones to the crawlers.
-	seen := make(map[string]bool)
+	seen := make(map[InternetLink]bool)
 	for list := range worklist {
 		for _, link := range list {
-			if !seen[link] {
+			if !seen[link] && link.depth <= *depth{
 				seen[link] = true
 				i++
 				fmt.Println(i, link)

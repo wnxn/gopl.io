@@ -18,12 +18,14 @@ import (
 // f is called at most once for each item.
 func breadthFirst(f func(item string) []string, worklist []string) {
 	seen := make(map[string]bool)
-	for len(worklist) > 0 {
+	for i:=0;len(worklist) > 0 && i < 1000;{
 		items := worklist
 		worklist = nil
 		for _, item := range items {
 			if !seen[item] {
 				seen[item] = true
+				i++
+				fmt.Println(i,item)
 				worklist = append(worklist, f(item)...)
 			}
 		}
@@ -48,7 +50,7 @@ func crawl(url string) []string {
 func main() {
 	// Crawl the web breadth-first,
 	// starting from the command-line arguments.
-	breadthFirst(crawl, []string{"https://golang.org"})
+	breadthFirst(crawl, []string{"https://www.sina.com.cn/"})
 }
 
 //!-main
