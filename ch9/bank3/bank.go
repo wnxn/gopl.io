@@ -6,7 +6,6 @@
 // Package bank provides a concurrency-safe single-account bank.
 package bank
 
-//!+
 import "sync"
 
 var (
