@@ -10,28 +10,45 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"image"
+	"image/gif"
 	"image/jpeg"
+	"image/png"
+
 	//_ "image/png" // register PNG decoder
 	"io"
 	"os"
 )
 
+var outputFormat = flag.String("output", "jpg","")
+
+func init(){
+	flag.Parse()
+}
+
 func main() {
-	if err := toJPEG(os.Stdin, os.Stdout); err != nil {
-		fmt.Fprintf(os.Stderr, "jpeg: %v\n", err)
+	if err := toOut(os.Stdin, os.Stdout); err != nil {
+		fmt.Fprintf(os.Stderr, "%s: %v\n", *outputFormat,err)
 		os.Exit(1)
 	}
 }
 
-func toJPEG(in io.Reader, out io.Writer) error {
+func toOut(in io.Reader, out io.Writer) error {
 	img, kind, err := image.Decode(in)
 	if err != nil {
 		return err
 	}
 	fmt.Fprintln(os.Stderr, "Input format =", kind)
-	return jpeg.Encode(out, img, &jpeg.Options{Quality: 95})
+	switch *outputFormat {
+	case "jpg":
+		return jpeg.Encode(out, img, &jpeg.Options{Quality: 95})
+	case "png":
+		return png.Encode(out, img)
+	default:
+		return gif.Encode(out,img, nil)
+	}
 }
 
 //!-main

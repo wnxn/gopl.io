@@ -4,7 +4,6 @@
 package display
 
 import (
-	"flag"
 	"io"
 	"net"
 	"os"
@@ -19,13 +18,17 @@ import (
 // into the book because it defeats the Example mechanism,
 // which requires the // Output comment to be at the end
 // of the function.
-func TestMain(m *testing.M) {
-	flag.Set("alsologtostderr", "true")
-	flag.Set("log_dir", "/tmp")
-	flag.Set("v", "3")
-	flag.Parse()
-	ret := m.Run()
-	os.Exit(ret)
+
+
+
+func TestCycle(t *testing.T){
+	type Cycle struct{
+		Value int
+		Tail *Cycle
+	}
+	var c Cycle
+	c = Cycle{42, &c}
+	Display("c",c)
 }
 
 func TestExample_expr(t *testing.T) {

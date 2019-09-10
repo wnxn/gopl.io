@@ -20,5 +20,5 @@ func Test(t *testing.T) {
 	fmt.Println(format.Any(d))                  // "1"
 	fmt.Println(format.Any([]int64{x}))         // "[]int64 0x8202b87b0"
 	fmt.Println(format.Any([]time.Duration{d})) // "[]time.Duration 0x8202b87e0"
-	//!-time
+	//!-timeß
 }
