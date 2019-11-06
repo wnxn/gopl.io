@@ -38,7 +38,7 @@ func main() {
 	for _, root := range roots {
 		n.Add(1)
 		fmt.Println("after add n", root)
-		go HandleEachRootDir(root,&n)
+		go HandleEachRootDir(root, &n)
 		fmt.Println("after handle", root)
 	}
 	n.Wait()
@@ -51,7 +51,7 @@ func main() {
 
 //!-
 
-func HandleEachRootDir(root string, m *sync.WaitGroup){
+func HandleEachRootDir(root string, m *sync.WaitGroup) {
 	fmt.Println(root)
 	defer m.Done()
 	fileSizes := make(chan int64)

@@ -40,21 +40,21 @@ func TestWithdraw(t *testing.T) {
 	wg := sync.WaitGroup{}
 	bank.Deposit(150)
 	wg.Add(1)
-	go func(){
+	go func() {
 
 		defer wg.Done()
 		res := bank.Withdraw(150)
 		fmt.Printf("alice withdraw 150 %t\n", res)
 	}()
 	wg.Add(1)
-	go func(){
-		defer  wg.Done()
+	go func() {
+		defer wg.Done()
 		res := bank.Withdraw(100)
 		fmt.Printf("bob withdraw 100 %t\n", res)
 	}()
 	wg.Add(1)
-	go func(){
-		defer  wg.Done()
+	go func() {
+		defer wg.Done()
 		res := bank.Withdraw(50)
 		fmt.Printf("jack withdraw 50 %t\n", res)
 	}()

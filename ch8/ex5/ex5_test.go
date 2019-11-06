@@ -8,7 +8,7 @@ import (
 )
 
 // sequential 230742875 ns/op
-func Benchmark(b *testing.B){
+func Benchmark(b *testing.B) {
 
 	ex5.CreateNImage(1)
 }

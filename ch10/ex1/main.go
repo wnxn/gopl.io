@@ -22,15 +22,15 @@ import (
 	"os"
 )
 
-var outputFormat = flag.String("output", "jpg","")
+var outputFormat = flag.String("output", "jpg", "")
 
-func init(){
+func init() {
 	flag.Parse()
 }
 
 func main() {
 	if err := toOut(os.Stdin, os.Stdout); err != nil {
-		fmt.Fprintf(os.Stderr, "%s: %v\n", *outputFormat,err)
+		fmt.Fprintf(os.Stderr, "%s: %v\n", *outputFormat, err)
 		os.Exit(1)
 	}
 }
@@ -47,7 +47,7 @@ func toOut(in io.Reader, out io.Writer) error {
 	case "png":
 		return png.Encode(out, img)
 	default:
-		return gif.Encode(out,img, nil)
+		return gif.Encode(out, img, nil)
 	}
 }
 

@@ -4,10 +4,10 @@
 package memo_test
 
 import (
-	"sync"
-	"testing"
 	"github.com/adonovan/gopl.io/ch9/ex3"
 	"gopl.io/ch9/memotest"
+	"sync"
+	"testing"
 )
 
 var httpGetBody = memotest.HTTPGetBody
@@ -22,7 +22,7 @@ func TestConcurrent(t *testing.T) {
 	m := memo.New(httpGetBody)
 	defer m.Close()
 	wg := sync.WaitGroup{}
-	go func(){
+	go func() {
 		m.Cancel()
 		wg.Done()
 	}()

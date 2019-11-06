@@ -20,12 +20,12 @@ import (
 func handleConn(c net.Conn, location string) {
 	defer c.Close()
 	_, err := time.LoadLocation(location)
-	if err != nil{
+	if err != nil {
 		klog.Error(err.Error())
 		return
 	}
 	for {
-		_,err =io.WriteString(c,time.Now().Format("15:04:05\n"))
+		_, err = io.WriteString(c, time.Now().Format("15:04:05\n"))
 		if err != nil {
 			klog.Error(err.Error())
 			return // e.g., client disconnected
@@ -34,7 +34,7 @@ func handleConn(c net.Conn, location string) {
 	}
 }
 
-var(
+var (
 	port = flag.Int("port", 0, "port of clock server")
 )
 
@@ -43,7 +43,7 @@ func main() {
 	flag.Parse()
 	klog.Info(*port)
 	timezone := os.Getenv("TZ")
-	klog.Infof("timezone=%s",timezone)
+	klog.Infof("timezone=%s", timezone)
 	listener, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", *port))
 	if err != nil {
 		log.Fatal(err)
@@ -55,7 +55,7 @@ func main() {
 			log.Print(err) // e.g., connection aborted
 			continue
 		}
-		go handleConn(conn,timezone) // handle connections concurrently
+		go handleConn(conn, timezone) // handle connections concurrently
 	}
 	//!-
 }

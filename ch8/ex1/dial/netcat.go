@@ -17,27 +17,27 @@ import (
 
 var (
 	newyork = flag.String("NewYork", "", "")
-	tokyo = flag.String("Tokyo", "", "")
-	london = flag.String("London","", "")
+	tokyo   = flag.String("Tokyo", "", "")
+	london  = flag.String("London", "", "")
 )
 
 func main() {
 	flag.Parse()
 	go MyDial("NY", *newyork)
-	go MyDial("TKY",*tokyo)
-	MyDial("LON",*london)
+	go MyDial("TKY", *tokyo)
+	MyDial("LON", *london)
 
 }
 
-func MyDial(city string,address string){
+func MyDial(city string, address string) {
 	conn, err := net.Dial("tcp", address)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer conn.Close()
 
-	for timeS := "";;fmt.Fscanf(conn, "%s", &timeS){
-		fmt.Println(city,timeS)
+	for timeS := ""; ; fmt.Fscanf(conn, "%s", &timeS) {
+		fmt.Println(city, timeS)
 	}
 }
 

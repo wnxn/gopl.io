@@ -13,6 +13,7 @@ import "fmt"
 var pc [256]byte
 
 func init() {
+	fmt.Println("init pc")
 	for i := range pc {
 		pc[i] = pc[i/2] + byte(i&1)
 	}

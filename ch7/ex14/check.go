@@ -57,12 +57,12 @@ var numParams = map[string]int{"pow": 2, "sin": 1, "sqrt": 1}
 
 //!-Check
 
-func (m min)Check(vars map[Var]bool) error {
+func (m min) Check(vars map[Var]bool) error {
 	arity, ok := minParams[m.fn]
 	if !ok {
 		return fmt.Errorf("unknown function %q", m.fn)
 	}
-	if len(m.args) < arity{
+	if len(m.args) < arity {
 		return fmt.Errorf("call to %s has %d args, want >= %d",
 			m.fn, len(m.args), arity)
 	}

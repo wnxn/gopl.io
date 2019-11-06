@@ -5,8 +5,8 @@ import (
 )
 
 func TestSqlQuote1(t *testing.T) {
-	tests := []struct{
-		x interface{}
+	tests := []struct {
+		x   interface{}
 		res string
 	}{
 		{
@@ -26,9 +26,9 @@ func TestSqlQuote1(t *testing.T) {
 			"hello",
 		},
 	}
-	for _,v:=range tests{
+	for _, v := range tests {
 		str := SqlQuote2(v.x)
-		if str != v.res{
+		if str != v.res {
 			t.Errorf("expect %s, but actually %s", v.res, str)
 		}
 	}

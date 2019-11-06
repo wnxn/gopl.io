@@ -67,7 +67,7 @@ loop:
 		select {
 		case <-done:
 			// Drain fileSizes to allow existing goroutines to finish.
-			for i :=range fileSizes {
+			for i := range fileSizes {
 				fmt.Printf("drain in select %d\n", i)
 				// Do nothing.
 			}

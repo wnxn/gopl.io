@@ -14,24 +14,24 @@ func main() {
 	squares := make(chan int)
 
 	// Counter
-	go func(ch chan<-int) {
-		for x := 0; x<10; x++ {
+	go func(ch chan<- int) {
+		for x := 0; x < 10; x++ {
 			ch <- x
 		}
 		close(ch)
 	}(naturals)
 
 	// Squarer
-	go func(ch1 chan<-int, ch2 <-chan int) {
-		for x:=range ch2 {
+	go func(ch1 chan<- int, ch2 <-chan int) {
+		for x := range ch2 {
 			ch1 <- x * x
 		}
 		close(ch1)
-	}( squares,naturals)
+	}(squares, naturals)
 
 	// Printer (in main goroutine)
 
-	for x:=range squares {
+	for x := range squares {
 		fmt.Println(x)
 	}
 }

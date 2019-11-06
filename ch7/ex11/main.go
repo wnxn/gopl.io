@@ -36,12 +36,12 @@ var databaseList = template.Must(template.New("databaseList").Parse(`
 
 func main() {
 	db := database{
-		entity:map[string]dollars{"shoes": 50, "socks": 5},
-		}
+		entity: map[string]dollars{"shoes": 50, "socks": 5},
+	}
 	http.HandleFunc("/list", db.list)
 	http.HandleFunc("/price", db.price)
 	http.HandleFunc("/create", db.create)
-	http.HandleFunc("/read",db.read)
+	http.HandleFunc("/read", db.read)
 	http.HandleFunc("/update", db.update)
 	http.HandleFunc("/delete", db.delete)
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
@@ -53,22 +53,22 @@ type dollars float32
 
 func (d dollars) String() string { return fmt.Sprintf("$%.2f", d) }
 
-type database struct{
+type database struct {
 	entity map[string]dollars
-	mut sync.Mutex
+	mut    sync.Mutex
 }
 
-type table struct{
-	Item string
+type table struct {
+	Item  string
 	Price dollars
 }
 
 func (db database) list(w http.ResponseWriter, req *http.Request) {
-	t := make([]table,0)
+	t := make([]table, 0)
 	for item, price := range db.entity {
-		t = append(t, table{item,price})
+		t = append(t, table{item, price})
 	}
-	databaseList.Execute(w,t)
+	databaseList.Execute(w, t)
 }
 
 func (db database) price(w http.ResponseWriter, req *http.Request) {
@@ -82,25 +82,25 @@ func (db database) price(w http.ResponseWriter, req *http.Request) {
 }
 
 // uri: /update?item=socks&price=60
-func (db database) update(w http.ResponseWriter, req *http.Request){
+func (db database) update(w http.ResponseWriter, req *http.Request) {
 	item := req.URL.Query().Get("item")
-	if _,ok:=db.entity[item];ok{
+	if _, ok := db.entity[item]; ok {
 		price, err := strconv.Atoi(req.URL.Query().Get("price"))
-		if err != nil{
+		if err != nil {
 			http.Error(w, err.Error(), http.StatusNotAcceptable)
 		}
 		db.mut.Lock()
 		defer db.mut.Unlock()
 		db.entity[item] = dollars(price)
 		fmt.Fprintf(w, "succeed to add %s %d", item, price)
-	}else{
+	} else {
 		w.WriteHeader(http.StatusNotFound) // 404
 		fmt.Fprintf(w, "no such item: %q\n", item)
 	}
 }
 
 // uri: /delete?item=socks
-func (db database)delete(w http.ResponseWriter, req *http.Request){
+func (db database) delete(w http.ResponseWriter, req *http.Request) {
 	item := req.URL.Query().Get("item")
 	if _, ok := db.entity[item]; ok {
 		db.mut.Lock()
@@ -113,13 +113,13 @@ func (db database)delete(w http.ResponseWriter, req *http.Request){
 }
 
 // uri: /create?item=socks&price=20
-func (db database) create(w http.ResponseWriter, req *http.Request){
+func (db database) create(w http.ResponseWriter, req *http.Request) {
 	item := req.URL.Query().Get("item")
-	if _, ok:=db.entity[item]; ok{
+	if _, ok := db.entity[item]; ok {
 		http.Error(w, "entity already existed", http.StatusCreated)
-	}else{
+	} else {
 		price, err := strconv.Atoi(req.URL.Query().Get("price"))
-		if err != nil{
+		if err != nil {
 			http.Error(w, err.Error(), http.StatusNotAcceptable)
 		}
 		db.mut.Lock()
@@ -130,7 +130,7 @@ func (db database) create(w http.ResponseWriter, req *http.Request){
 }
 
 // uri: /read?item=socks
-func (db database) read(w http.ResponseWriter, req *http.Request){
+func (db database) read(w http.ResponseWriter, req *http.Request) {
 	item := req.URL.Query().Get("item")
 	if price, ok := db.entity[item]; ok {
 		fmt.Fprintf(w, "%s\n", price)
@@ -139,4 +139,3 @@ func (db database) read(w http.ResponseWriter, req *http.Request){
 		fmt.Fprintf(w, "no such item: %q\n", item)
 	}
 }
-

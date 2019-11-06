@@ -69,7 +69,7 @@ func (c call) Eval(env Env) float64 {
 
 //!-Eval2
 
-func (m min)Eval(env Env)float64{
+func (m min) Eval(env Env) float64 {
 	switch m.fn {
 	case "min":
 		return m.minimal(env)
@@ -77,10 +77,10 @@ func (m min)Eval(env Env)float64{
 	panic(fmt.Sprintf("unsupported function call: %s", m.fn))
 }
 
-func (m min)minimal(env Env)float64{
+func (m min) minimal(env Env) float64 {
 	res := m.args[0].Eval(env)
-	for _, v:=range m.args{
-		if res > v.Eval(env){
+	for _, v := range m.args {
+		if res > v.Eval(env) {
 			res = v.Eval(env)
 		}
 	}

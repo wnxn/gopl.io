@@ -10,7 +10,7 @@ type Expr interface {
 	// Check reports errors in this Expr and adds its Vars to the set.
 	Check(vars map[Var]bool) error
 
-	String()string
+	String() string
 }
 
 //!+ast

@@ -15,19 +15,19 @@ import (
 	"time"
 )
 
-var timeout = 10*time.Second
+var timeout = 10 * time.Second
 
 //!+broadcaster
 type client chan<- string // an outgoing message channel
 
-type clientSet struct{
-	ch client
-	name string
-	conn net.Conn
+type clientSet struct {
+	ch    client
+	name  string
+	conn  net.Conn
 	timer *time.Timer
 }
 
-func (c *clientSet)Reset(){
+func (c *clientSet) Reset() {
 	c.timer.Reset(timeout)
 }
 
@@ -37,8 +37,8 @@ var (
 	messages = make(chan string) // all incoming client messages
 )
 
-func disconnect(cli clientSet){
-	select{
+func disconnect(cli clientSet) {
+	select {
 	case <-cli.timer.C:
 		cli.conn.Close()
 	}
@@ -57,7 +57,7 @@ func broadcaster() {
 			}
 
 		case cli := <-entering:
-			for curCli := range clients{
+			for curCli := range clients {
 				cli.ch <- fmt.Sprintf("%s already in this chat", curCli.name)
 			}
 			clients[cli] = true
@@ -81,9 +81,9 @@ func handleConn(conn net.Conn) {
 	messages <- who + " has arrived"
 
 	newClient := clientSet{
-		ch: ch,
-		name: who,
-		conn: conn,
+		ch:    ch,
+		name:  who,
+		conn:  conn,
 		timer: time.NewTimer(timeout),
 	}
 

@@ -16,7 +16,7 @@ import (
 	"unicode/utf8"
 )
 
-func charcount(r io.Reader) (counts map[rune]int, utflen [utf8.UTFMax+1]int, invalid int) {
+func charcount(r io.Reader) (counts map[rune]int, utflen [utf8.UTFMax + 1]int, invalid int) {
 	counts = make(map[rune]int)
 	in := bufio.NewReader(r)
 	for {

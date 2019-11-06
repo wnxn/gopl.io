@@ -15,8 +15,8 @@ func TestMemsync(t *testing.T) {
 
 var done = make(chan struct{})
 
-func cancel()bool{
-	select{
+func cancel() bool {
+	select {
 	case <-done:
 		return true
 	default:
@@ -24,7 +24,7 @@ func cancel()bool{
 	}
 }
 
-func TestRoutine(t *testing.T){
+func TestRoutine(t *testing.T) {
 	fmt.Println(cancel())
 	fmt.Println(cancel())
 	wg := sync.WaitGroup{}

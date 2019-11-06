@@ -19,16 +19,14 @@ import (
 // which requires the // Output comment to be at the end
 // of the function.
 
-
-
-func TestCycle(t *testing.T){
-	type Cycle struct{
+func TestCycle(t *testing.T) {
+	type Cycle struct {
 		Value int
-		Tail *Cycle
+		Tail  *Cycle
 	}
 	var c Cycle
 	c = Cycle{42, &c}
-	Display("c",c)
+	Display("c", c)
 }
 
 func TestExample_expr(t *testing.T) {

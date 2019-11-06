@@ -19,15 +19,15 @@ import (
 
 var (
 	depth = flag.Int("depth", 1, "")
-	link = flag.String("link", "https://www.sina.com/","")
+	link  = flag.String("link", "https://www.sina.com/", "")
 )
 
-type InternetLink struct{
-	link string
+type InternetLink struct {
+	link  string
 	depth int
 }
 
-func init(){
+func init() {
 	flag.Parse()
 }
 
@@ -38,8 +38,8 @@ func crawl(url InternetLink) (res []InternetLink) {
 		log.Print(err)
 	}
 
-	for _,v:=range list{
-		res = append(res, InternetLink{v,url.depth+1})
+	for _, v := range list {
+		res = append(res, InternetLink{v, url.depth + 1})
 	}
 	return res
 }
@@ -62,13 +62,13 @@ func main() {
 			}
 		}()
 	}
-	i:=0
+	i := 0
 	// The main goroutine de-duplicates worklist items
 	// and sends the unseen ones to the crawlers.
 	seen := make(map[InternetLink]bool)
 	for list := range worklist {
 		for _, link := range list {
-			if !seen[link] && link.depth <= *depth{
+			if !seen[link] && link.depth <= *depth {
 				seen[link] = true
 				i++
 				fmt.Println(i, link)

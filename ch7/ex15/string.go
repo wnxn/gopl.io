@@ -5,15 +5,15 @@ import (
 	"fmt"
 )
 
-func (v Var)String()string{
+func (v Var) String() string {
 	return string(v)
 }
 
-func (l literal)String()string{
+func (l literal) String() string {
 	return fmt.Sprintf("%g", l)
 }
 
-func(u unary)String()string{
+func (u unary) String() string {
 	switch u.op {
 	case '+':
 		return fmt.Sprintf("%s", u.x.String())
@@ -24,32 +24,32 @@ func(u unary)String()string{
 	}
 }
 
-func(b binary)String()string{
+func (b binary) String() string {
 	return fmt.Sprintf("(%s%c%s)", b.x.String(), b.op, b.y.String())
 }
 
-func(c call)String()string{
+func (c call) String() string {
 	str := &bytes.Buffer{}
-	fmt.Fprintf(str,"%s(", c.fn)
-	for i, k := range c.args{
-		if i > 0{
-			fmt.Fprint(str,",")
+	fmt.Fprintf(str, "%s(", c.fn)
+	for i, k := range c.args {
+		if i > 0 {
+			fmt.Fprint(str, ",")
 		}
-		fmt.Fprintf(str,"%s", k.String())
+		fmt.Fprintf(str, "%s", k.String())
 	}
-	fmt.Fprint(str,")")
+	fmt.Fprint(str, ")")
 	return str.String()
 }
 
-func (m min)String()string{
+func (m min) String() string {
 	str := &bytes.Buffer{}
-	fmt.Fprintf(str,"%s(", m.fn)
-	for i, k := range m.args{
-		if i > 0{
-			fmt.Fprint(str,",")
+	fmt.Fprintf(str, "%s(", m.fn)
+	for i, k := range m.args {
+		if i > 0 {
+			fmt.Fprint(str, ",")
 		}
-		fmt.Fprintf(str,"%s", k.String())
+		fmt.Fprintf(str, "%s", k.String())
 	}
-	fmt.Fprint(str,")")
+	fmt.Fprint(str, ")")
 	return str.String()
 }

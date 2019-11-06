@@ -27,7 +27,7 @@ func main() {
 		}
 		switch tok := tok.(type) {
 		case xml.StartElement:
-			fmt.Printf("Element Start: %s\n",tok.Name.Local )
+			fmt.Printf("Element Start: %s\n", tok.Name.Local)
 		case xml.EndElement:
 			fmt.Printf("Element Stop\n")
 		case xml.CharData:

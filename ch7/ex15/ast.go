@@ -10,9 +10,9 @@ type Expr interface {
 	// Check reports errors in this Expr and adds its Vars to the set.
 	Check(vars map[Var]bool) error
 
-	String()string
+	String() string
 
-	GetExpr()[]Expr
+	GetExpr() []Expr
 }
 
 //!+ast
@@ -43,22 +43,22 @@ type call struct {
 
 //!-ast
 
-type min struct{
-	fn string
+type min struct {
+	fn   string
 	args []Expr
 }
 
-func GetVariable(e Expr)[]Var{
+func GetVariable(e Expr) []Var {
 	res := []Var{}
-	switch e.(type){
+	switch e.(type) {
 	case Var:
 		res = append(res, Var(e.String()))
 	case literal:
 		return nil
 	default:
-		for _,v :=range e.GetExpr(){
-			if v != nil{
-				res = append(res,GetVariable(v)...)
+		for _, v := range e.GetExpr() {
+			if v != nil {
+				res = append(res, GetVariable(v)...)
 			}
 		}
 	}

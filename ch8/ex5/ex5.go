@@ -16,23 +16,23 @@ import (
 	"sync"
 )
 
-func CreateNImage(n int){
-	for i:=0;i<n;i++{
+func CreateNImage(n int) {
+	for i := 0; i < n; i++ {
 		img := CreateImage()
-		file, _:=os.Create("seq.png")
-		png.Encode(file,img)
+		file, _ := os.Create("seq.png")
+		png.Encode(file, img)
 	}
 }
 
-func CreateNParallelImage(n int){
-	for i:=0;i<n;i++{
-		img:=CreateParallelImage()
-		file, _:=os.Create("parallel.png")
-		png.Encode(file,img)
+func CreateNParallelImage(n int) {
+	for i := 0; i < n; i++ {
+		img := CreateParallelImage()
+		file, _ := os.Create("parallel.png")
+		png.Encode(file, img)
 	}
 }
 
-func CreateParallelImage()image.Image {
+func CreateParallelImage() image.Image {
 	const (
 		xmin, ymin, xmax, ymax = -2, -2, +2, +2
 		width, height          = 1024, 1024
@@ -46,22 +46,22 @@ func CreateParallelImage()image.Image {
 		y := float64(py)/height*(ymax-ymin) + ymin
 		for px := 0; px < width; px++ {
 			wg.Add(1)
-			go func(px,py int,y float64){
+			go func(px, py int, y float64) {
 				defer wg.Done()
 				x := float64(px)/width*(xmax-xmin) + xmin
 				z := complex(x, y)
 				// Image point (px, py) represents complex value z.
 				img.Set(px, py, mandelbrot(z))
-			}(px,py,y)
+			}(px, py, y)
 		}
 	}
-	go func(){
+	go func() {
 		wg.Wait()
 	}()
 	return img
 }
 
-func CreateImage()image.Image {
+func CreateImage() image.Image {
 	const (
 		xmin, ymin, xmax, ymax = -2, -2, +2, +2
 		width, height          = 1024, 1024

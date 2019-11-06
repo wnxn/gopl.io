@@ -10,7 +10,7 @@ type Expr interface {
 	// Check reports errors in this Expr and adds its Vars to the set.
 	Check(vars map[Var]bool) error
 
-	String()string
+	String() string
 }
 
 //!+ast
@@ -41,7 +41,7 @@ type call struct {
 
 //!-ast
 
-type min struct{
-	fn string
+type min struct {
+	fn   string
 	args []Expr
 }

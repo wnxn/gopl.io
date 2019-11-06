@@ -20,7 +20,7 @@ import (
 
 var done = make(chan struct{})
 
-func cancel()bool{
+func cancel() bool {
 	select {
 	case <-done:
 		return true
@@ -30,7 +30,7 @@ func cancel()bool{
 }
 
 func crawl(url string) []string {
-	if cancel(){
+	if cancel() {
 		panic("wd")
 	}
 
@@ -54,7 +54,7 @@ func main() {
 	for i := 0; i < 20; i++ {
 		go func() {
 			for link := range unseenLinks {
-				if cancel(){
+				if cancel() {
 					return
 				}
 				foundLinks := crawl(link)
@@ -62,7 +62,7 @@ func main() {
 			}
 		}()
 	}
-	i:=0
+	i := 0
 	// The main goroutine de-duplicates worklist items
 	// and sends the unseen ones to the crawlers.
 	go func() {
@@ -72,7 +72,7 @@ func main() {
 	seen := make(map[string]bool)
 	for list := range worklist {
 		for _, link := range list {
-			if cancel(){
+			if cancel() {
 				panic("hi")
 			}
 			if !seen[link] {

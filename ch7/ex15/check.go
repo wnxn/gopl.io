@@ -15,7 +15,7 @@ func (v Var) Check(vars map[Var]bool) error {
 	return nil
 }
 
-func (v Var) GetExpr()[]Expr{
+func (v Var) GetExpr() []Expr {
 	return nil
 }
 
@@ -23,7 +23,7 @@ func (literal) Check(vars map[Var]bool) error {
 	return nil
 }
 
-func(l literal)GetExpr()[]Expr{
+func (l literal) GetExpr() []Expr {
 	return nil
 }
 
@@ -34,7 +34,7 @@ func (u unary) Check(vars map[Var]bool) error {
 	return u.x.Check(vars)
 }
 
-func (u unary)GetExpr()[]Expr{
+func (u unary) GetExpr() []Expr {
 	return []Expr{u.x}
 }
 
@@ -48,7 +48,7 @@ func (b binary) Check(vars map[Var]bool) error {
 	return b.y.Check(vars)
 }
 
-func (b binary)GetExpr()[]Expr{
+func (b binary) GetExpr() []Expr {
 	return []Expr{b.x, b.y}
 }
 
@@ -69,7 +69,7 @@ func (c call) Check(vars map[Var]bool) error {
 	return nil
 }
 
-func (c call)GetExpr()[]Expr{
+func (c call) GetExpr() []Expr {
 	return c.args
 }
 
@@ -77,12 +77,12 @@ var numParams = map[string]int{"pow": 2, "sin": 1, "sqrt": 1}
 
 //!-Check
 
-func (m min)Check(vars map[Var]bool) error {
+func (m min) Check(vars map[Var]bool) error {
 	arity, ok := minParams[m.fn]
 	if !ok {
 		return fmt.Errorf("unknown function %q", m.fn)
 	}
-	if len(m.args) < arity{
+	if len(m.args) < arity {
 		return fmt.Errorf("call to %s has %d args, want >= %d",
 			m.fn, len(m.args), arity)
 	}
@@ -94,7 +94,7 @@ func (m min)Check(vars map[Var]bool) error {
 	return nil
 }
 
-func (m min)GetExpr()[]Expr{
+func (m min) GetExpr() []Expr {
 	return m.args
 }
 

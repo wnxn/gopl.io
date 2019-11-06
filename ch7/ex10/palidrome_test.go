@@ -6,15 +6,15 @@ import (
 )
 
 func TestIsPalindrome(t *testing.T) {
-	testcases := []struct{
-		name string
-		input sort.Interface
+	testcases := []struct {
+		name   string
+		input  sort.Interface
 		output bool
 	}{
 		{
-			name:"normal",
-			input: &sort.IntSlice{1,2,3,5,3,2,1},
-			output:true,
+			name:   "normal",
+			input:  &sort.IntSlice{1, 2, 3, 5, 3, 2, 1},
+			output: true,
 		},
 		{
 			"zero value",
@@ -23,13 +23,13 @@ func TestIsPalindrome(t *testing.T) {
 		},
 		{
 			"failed ints",
-			&sort.IntSlice{1,2,3,5,3,2},
+			&sort.IntSlice{1, 2, 3, 5, 3, 2},
 			false,
 		},
 	}
-	for _, v:=range testcases{
-		res:=IsPalindrome(v.input)
-		if res != v.output{
+	for _, v := range testcases {
+		res := IsPalindrome(v.input)
+		if res != v.output {
 			t.Errorf("name %s: expect %t, but actually %t", v.name, v.output, res)
 		}
 	}

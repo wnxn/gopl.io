@@ -25,11 +25,11 @@ func echo(c net.Conn, shout string, delay time.Duration) {
 }
 
 //!+
-func handleConn(c net.Conn, ch chan<-int) {
+func handleConn(c net.Conn, ch chan<- int) {
 	input := bufio.NewScanner(c)
 	for input.Scan() {
 		go echo(c, input.Text(), 1*time.Second)
-		ch<-len(input.Text())
+		ch <- len(input.Text())
 	}
 	// NOTE: ignoring potential errors from input.Err()
 	c.Close()
@@ -43,7 +43,7 @@ func main() {
 		log.Fatal(err)
 	}
 	ch := make(chan int)
-	go func(ch2 <-chan int){
+	go func(ch2 <-chan int) {
 		for {
 			fmt.Printf("main: %d bytes\n", <-ch2)
 		}
@@ -54,7 +54,7 @@ func main() {
 			log.Print(err) // e.g., connection aborted
 			continue
 		}
-		go handleConn(conn,ch)
+		go handleConn(conn, ch)
 
 	}
 

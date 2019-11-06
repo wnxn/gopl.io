@@ -16,7 +16,6 @@ import "fmt"
 // Func is the type of the function to memoize.
 type Func func(key string) (interface{}, error)
 
-
 // A result is the result of calling a Func.
 type result struct {
 	value interface{}
@@ -38,9 +37,9 @@ type request struct {
 	response chan<- result // the client wants a single result
 }
 
-type Memo struct{
+type Memo struct {
 	requests chan request
-	done chan struct{}
+	done     chan struct{}
 }
 
 // New returns a memoization of f.  Clients must subsequently call Close.
@@ -61,14 +60,14 @@ func (memo *Memo) Close() {
 	close(memo.requests)
 }
 
-func (memo *Memo)Cancel(){
+func (memo *Memo) Cancel() {
 	fmt.Println("do cancel")
 	memo.done <- struct{}{}
 }
 
-func (memo *Memo)IsCanceled()bool{
+func (memo *Memo) IsCanceled() bool {
 	select {
-	case <- memo.done:
+	case <-memo.done:
 		return true
 	default:
 		return false
@@ -89,7 +88,7 @@ func (memo *Memo) server(f Func) {
 			cache[req.key] = e
 			go e.call(f, req.key) // call f(key)
 		}
-		if memo.IsCanceled(){
+		if memo.IsCanceled() {
 			fmt.Println("is canceled")
 			continue
 		}

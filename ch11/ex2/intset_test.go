@@ -5,7 +5,7 @@ import "testing"
 func TestIntSet_Add(t *testing.T) {
 	intset := IntSet{}
 
-	tests := []struct{
+	tests := []struct {
 		add int
 		str string
 	}{
@@ -22,9 +22,9 @@ func TestIntSet_Add(t *testing.T) {
 			str: "{9 12 65}",
 		},
 	}
-	for _, test := range tests{
+	for _, test := range tests {
 		intset.Add(test.add)
-		if test.str != intset.String(){
+		if test.str != intset.String() {
 			t.Errorf("IntSet.Add(%d) =  expect %s, but actually %s", test.add, test.str, intset.String())
 		}
 	}
@@ -32,44 +32,44 @@ func TestIntSet_Add(t *testing.T) {
 
 func TestIntSet_Has(t *testing.T) {
 	intset := IntSet{
-		words:[]uint64{0x1000000},
+		words: []uint64{0x1000000},
 	}
-	tests := []struct{
+	tests := []struct {
 		num int
 		has bool
 	}{
 		{
-			num:21,
+			num: 21,
 			has: false,
 		},
 		{
-			num:24,
-			has:true,
+			num: 24,
+			has: true,
 		},
 	}
-	for _, test := range tests{
-		res:= intset.Has(test.num)
-		if res != test.has{
+	for _, test := range tests {
+		res := intset.Has(test.num)
+		if res != test.has {
 			t.Errorf("IntSet.Has(%d) = expect %t, but actually %t", test.num, test.has, res)
 		}
 	}
 }
 
 func TestIntSet_UnionWith(t *testing.T) {
-	tests := []struct{
+	tests := []struct {
 		set1 IntSet
 		set2 IntSet
-		res IntSet
+		res  IntSet
 	}{
 		{
 			set1: IntSet{
-				words:[]uint64{0x1003000},
+				words: []uint64{0x1003000},
 			},
 			set2: IntSet{
-				words:[]uint64{0x000F000, 0x1},
+				words: []uint64{0x000F000, 0x1},
 			},
 			res: IntSet{
-				words:[]uint64{0x100F000,0x1},
+				words: []uint64{0x100F000, 0x1},
 			},
 		},
 	}

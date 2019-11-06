@@ -9,8 +9,8 @@ package bank
 
 var deposits = make(chan int) // send amount to deposit
 var balances = make(chan int) // receive balance
-var withdraw = make(chan struct{
-	amount int
+var withdraw = make(chan struct {
+	amount  int
 	isValid chan bool
 })
 
@@ -18,16 +18,15 @@ func Deposit(amount int) { deposits <- amount }
 func Balance() int       { return <-balances }
 func Withdraw(amount int) bool {
 	isValid := make(chan bool)
-	withdraw <- struct{
-		amount int
+	withdraw <- struct {
+		amount  int
 		isValid chan bool
 	}{
-		amount:amount,
+		amount:  amount,
 		isValid: isValid,
 	}
 	return <-isValid
 }
-
 
 func teller() {
 	var balance int // balance is confined to teller goroutine
@@ -36,10 +35,10 @@ func teller() {
 		case amount := <-deposits:
 			balance += amount
 		case balances <- balance:
-		case draw := <- withdraw:
-			if balance < draw.amount{
+		case draw := <-withdraw:
+			if balance < draw.amount {
 				draw.isValid <- false
-			}else{
+			} else {
 				balance -= draw.amount
 				draw.isValid <- true
 			}

@@ -18,7 +18,7 @@ import (
 
 //!+
 func main() {
-	conn, err := net.DialTCP("tcp", nil,&net.TCPAddr{[]byte{127,0,0,1}, 8000, ""})
+	conn, err := net.DialTCP("tcp", nil, &net.TCPAddr{[]byte{127, 0, 0, 1}, 8000, ""})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -28,8 +28,8 @@ func main() {
 		log.Println("done")
 		done <- struct{}{} // signal the main goroutine
 	}()
-	go func(){
-		time.Sleep(10*time.Second)
+	go func() {
+		time.Sleep(10 * time.Second)
 		syscall.Close(0)
 		fmt.Println("close 0")
 	}()

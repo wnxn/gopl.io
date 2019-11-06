@@ -27,18 +27,18 @@ func echo(c net.Conn, shout string, delay time.Duration) {
 func handleConn(c net.Conn) {
 	input := bufio.NewScanner(c)
 	inputChan := make(chan string)
-	go func(){
-		for input.Scan(){
+	go func() {
+		for input.Scan() {
 			inputChan <- input.Text()
 		}
 	}()
-	ticker := time.NewTicker(1*time.Second)
+	ticker := time.NewTicker(1 * time.Second)
 	defer ticker.Stop()
-	for i:=0;i<10;i++{
-		select{
+	for i := 0; i < 10; i++ {
+		select {
 		case <-ticker.C:
 			fmt.Printf("Nothing in %d seconds\n", i)
-		case str :=<-inputChan:
+		case str := <-inputChan:
 			echo(c, str, 1*time.Second)
 			i = 0
 		}

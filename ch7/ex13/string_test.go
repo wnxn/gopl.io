@@ -6,9 +6,9 @@ import (
 )
 
 func TestVar_String(t *testing.T) {
-	tests := []struct{
+	tests := []struct {
 		variable Var
-		ex Expr
+		ex       Expr
 	}{
 		{
 			Var("x"),
@@ -19,21 +19,21 @@ func TestVar_String(t *testing.T) {
 			Var("x"),
 		},
 	}
-	for _, test := range tests{
+	for _, test := range tests {
 		expr, err := Parse(test.variable.String())
 		if err != nil {
 			t.Error(err) // parse error
 			continue
 		}
-		if !reflect.DeepEqual(test.ex, expr){
+		if !reflect.DeepEqual(test.ex, expr) {
 			t.Errorf("Parse %s: expect %v, but actually %v", test.variable.String(),
-				test.ex,expr)
+				test.ex, expr)
 		}
 	}
 }
 
 func TestLiteral_String(t *testing.T) {
-	tests := []struct{
+	tests := []struct {
 		l literal
 	}{
 		{
@@ -43,51 +43,51 @@ func TestLiteral_String(t *testing.T) {
 			literal(23),
 		},
 	}
-	for _, test := range tests{
+	for _, test := range tests {
 		expr, err := Parse(test.l.String())
 		if err != nil {
 			t.Error(err) // parse error
 			continue
 		}
-		if !reflect.DeepEqual(test.l, expr){
+		if !reflect.DeepEqual(test.l, expr) {
 			t.Errorf("Parse %s: expect %v, but actually %v", test.l.String(),
-				test.l,expr)
+				test.l, expr)
 		}
 	}
 }
 
 func TestUnary_String(t *testing.T) {
-	tests := []struct{
+	tests := []struct {
 		u unary
 	}{
 		{
 			unary{
 				op: '+',
-				x: literal(3.12321),
+				x:  literal(3.12321),
 			},
 		},
 		{
 			unary{
 				op: '-',
-				x: Var("asd"),
+				x:  Var("asd"),
 			},
 		},
 	}
-	for _, test:=range tests{
+	for _, test := range tests {
 		expr, err := Parse(test.u.String())
 		if err != nil {
 			t.Error(err) // parse error
 			continue
 		}
-		if test.u.String() != expr.String(){
+		if test.u.String() != expr.String() {
 			t.Errorf("Parse %s: expect %v, but actually %v", test.u.String(),
-				test.u,expr)
+				test.u, expr)
 		}
 	}
 }
 
 func TestBinary_String(t *testing.T) {
-	tests := []struct{
+	tests := []struct {
 		b binary
 	}{
 		{
@@ -95,7 +95,7 @@ func TestBinary_String(t *testing.T) {
 				op: '*',
 				x: unary{
 					op: '-',
-					x: Var("asd"),
+					x:  Var("asd"),
 				},
 				y: Var("asd"),
 			},
@@ -103,48 +103,48 @@ func TestBinary_String(t *testing.T) {
 		{
 			binary{
 				op: '+',
-				x:binary{
+				x: binary{
 					op: '*',
 					x: unary{
 						op: '-',
-						x: Var("asd"),
+						x:  Var("asd"),
 					},
 					y: Var("asd"),
 				},
-				y:binary{
-					op:'/',
-					x: literal(3.12321),
+				y: binary{
+					op: '/',
+					x:  literal(3.12321),
 					y:  Var("asd"),
 				},
 			},
 		},
 	}
-	for _, test:=range tests{
+	for _, test := range tests {
 		expr, err := Parse(test.b.String())
 		if err != nil {
 			t.Error(err) // parse error
 			continue
 		}
-		if test.b.String() != expr.String(){
+		if test.b.String() != expr.String() {
 			t.Errorf("Parse %s: expect %v, but actually %v", test.b.String(),
-				test.b,expr)
+				test.b, expr)
 		}
 	}
 }
 
 func TestCall_String(t *testing.T) {
-	tests := []struct{
+	tests := []struct {
 		c call
 	}{
 		{
 			call{
 				fn: "pow",
-				args:[]Expr{
+				args: []Expr{
 					binary{
 						op: '*',
 						x: unary{
 							op: '-',
-							x: Var("asd"),
+							x:  Var("asd"),
 						},
 						y: Var("asd"),
 					},
@@ -153,15 +153,15 @@ func TestCall_String(t *testing.T) {
 			},
 		},
 	}
-	for _, test:=range tests{
+	for _, test := range tests {
 		expr, err := Parse(test.c.String())
 		if err != nil {
 			t.Error(err) // parse error
 			continue
 		}
-		if test.c.String() != expr.String(){
+		if test.c.String() != expr.String() {
 			t.Errorf("Parse %s: expect %v, but actually %v", test.c.String(),
-				test.c,expr)
+				test.c, expr)
 		}
 	}
 }

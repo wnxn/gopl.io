@@ -8,8 +8,8 @@ import (
 	"time"
 )
 
-type Table struct{
-	tracks []*Track
+type Table struct {
+	tracks   []*Track
 	priority map[PriorityLevel]TrackField
 }
 
@@ -17,11 +17,11 @@ type PriorityLevel int
 
 type TrackField string
 
-const(
-	TrackTitleName = "Title"
+const (
+	TrackTitleName  = "Title"
 	TrackArtistName = "Artist"
-	TrackAlbumName = "Album"
-	TrackYearName = "Year"
+	TrackAlbumName  = "Album"
+	TrackYearName   = "Year"
 	TrackLengthName = "Length"
 )
 
@@ -41,11 +41,11 @@ var tracks = []*Track{
 }
 
 var priority = map[PriorityLevel]TrackField{
-	1:TrackTitleName,
-	4:TrackArtistName,
-	3:TrackAlbumName,
-	2:TrackYearName,
-	5:TrackLengthName}
+	1: TrackTitleName,
+	4: TrackArtistName,
+	3: TrackAlbumName,
+	2: TrackYearName,
+	5: TrackLengthName}
 
 func length(s string) time.Duration {
 	d, err := time.ParseDuration(s)
@@ -55,27 +55,27 @@ func length(s string) time.Duration {
 	return d
 }
 
-func (t Table)Less(i,j int)bool{
-	for k:=0;k<5;k++{
-		switch t.priority[PriorityLevel(k)]{
+func (t Table) Less(i, j int) bool {
+	for k := 0; k < 5; k++ {
+		switch t.priority[PriorityLevel(k)] {
 		case TrackTitleName:
-			if t.tracks[i].Title != t.tracks[j].Title{
+			if t.tracks[i].Title != t.tracks[j].Title {
 				return t.tracks[i].Title < t.tracks[j].Title
 			}
 		case TrackArtistName:
-			if t.tracks[i].Artist != t.tracks[j].Artist{
+			if t.tracks[i].Artist != t.tracks[j].Artist {
 				return t.tracks[i].Artist < t.tracks[j].Artist
 			}
 		case TrackAlbumName:
-			if t.tracks[i].Album != t.tracks[j].Album{
+			if t.tracks[i].Album != t.tracks[j].Album {
 				return t.tracks[i].Album < t.tracks[j].Album
 			}
 		case TrackYearName:
-			if t.tracks[i].Year != t.tracks[j].Year{
+			if t.tracks[i].Year != t.tracks[j].Year {
 				return t.tracks[i].Year < t.tracks[j].Year
 			}
 		case TrackLengthName:
-			if t.tracks[i].Length != t.tracks[j].Length{
+			if t.tracks[i].Length != t.tracks[j].Length {
 				return t.tracks[i].Length < t.tracks[j].Length
 			}
 		}
@@ -83,12 +83,12 @@ func (t Table)Less(i,j int)bool{
 	return false
 }
 
-func (t Table)Len()int{
+func (t Table) Len() int {
 	return len(t.tracks)
 }
 
-func (t Table)Swap(i,j int){
-	t.tracks[i], t.tracks[j]=t.tracks[j],t.tracks[i]
+func (t Table) Swap(i, j int) {
+	t.tracks[i], t.tracks[j] = t.tracks[j], t.tracks[i]
 }
 
 func printTracks(tracks []*Track) {
@@ -102,25 +102,25 @@ func printTracks(tracks []*Track) {
 	tw.Flush() // calculate column widths and print table
 }
 
-func (t *Table)Click(field TrackField){
+func (t *Table) Click(field TrackField) {
 	mp := t.priority
-	if mp[1] == field{
+	if mp[1] == field {
 		return
 	}
 	var fieldLevel PriorityLevel = 0
-	for i := range mp{
-		if mp[i] == field{
+	for i := range mp {
+		if mp[i] == field {
 			fieldLevel = i
 		}
 	}
-	for i:= fieldLevel; i>1;i--{
+	for i := fieldLevel; i > 1; i-- {
 		mp[i] = mp[i-1]
 	}
-	mp[1]=field
+	mp[1] = field
 }
 
 func main() {
-	t := Table{tracks:tracks,priority:priority}
+	t := Table{tracks: tracks, priority: priority}
 	printTracks(t.tracks)
 	sort.Sort(t)
 	printTracks(t.tracks)

@@ -10,7 +10,7 @@ package main
 import "fmt"
 
 var test map[int]string = map[int]string{
-	4:"he",
+	4: "he",
 }
 
 func main() {

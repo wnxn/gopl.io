@@ -12,7 +12,7 @@ func main() {
 	fmt.Println(reflect.TypeOf(w))
 	fmt.Println(reflect.TypeOf(w).Kind())
 
-	name := []string{"ws","fe"}
+	name := []string{"ws", "fe"}
 	fmt.Println(reflect.TypeOf(name))
 	fmt.Println(reflect.TypeOf(name).Kind())
 	switch interface{}(name).(type) {
