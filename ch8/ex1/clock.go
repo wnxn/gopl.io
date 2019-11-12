@@ -21,7 +21,7 @@ func handleConn(c net.Conn, location string) {
 	defer c.Close()
 	_, err := time.LoadLocation(location)
 	if err != nil {
-		klog.Error(err.Error())
+		klog.Errorf(err.Error())
 		return
 	}
 	for {

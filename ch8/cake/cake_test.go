@@ -19,6 +19,7 @@ var defaults = cake.Shop{
 	InscribeTime: 10 * time.Millisecond,
 }
 
+// Benchmark-8   	       5	 259'617'527 ns/op
 func Benchmark(b *testing.B) {
 	// Baseline: one baker, one icer, one inscriber.
 	// Each step takes exactly 10ms.  No buffers.
@@ -26,6 +27,7 @@ func Benchmark(b *testing.B) {
 	cakeshop.Work(b.N) // 224 ms
 }
 
+// BenchmarkBuffers-8   	       5	 264'189'849 ns/op
 func BenchmarkBuffers(b *testing.B) {
 	// Adding buffers has no effect.
 	cakeshop := defaults
@@ -34,6 +36,7 @@ func BenchmarkBuffers(b *testing.B) {
 	cakeshop.Work(b.N) // 224 ms
 }
 
+//  BenchmarkVariable-8   	       5	 291'661'983 ns/op
 func BenchmarkVariable(b *testing.B) {
 	// Adding variability to rate of each step
 	// increases total time due to channel delays.
@@ -44,6 +47,7 @@ func BenchmarkVariable(b *testing.B) {
 	cakeshop.Work(b.N) // 259 ms
 }
 
+// BenchmarkVariableBuffers-8   	       5	 262'691'933 ns/op
 func BenchmarkVariableBuffers(b *testing.B) {
 	// Adding channel buffers reduces
 	// delays resulting from variability.

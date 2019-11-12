@@ -12,8 +12,6 @@ import (
 	"log"
 	"net"
 	"os"
-	"syscall"
-	"time"
 )
 
 //!+
@@ -24,19 +22,23 @@ func main() {
 	}
 	done := make(chan struct{})
 	go func() {
-		io.Copy(os.Stdout, conn) // NOTE: ignoring errors
+		num, err := io.Copy(os.Stdout, conn) // NOTE: ignoring errors
+		if err != nil{
+			log.Println(num,err)
+		}
+
 		log.Println("done")
 		done <- struct{}{} // signal the main goroutine
 	}()
-	go func() {
-		time.Sleep(10 * time.Second)
-		syscall.Close(0)
-		fmt.Println("close 0")
-	}()
 	mustCopy(conn, os.Stdin)
-	<-done // wait for background goroutine to finish
-	conn.CloseWrite()
+	err = conn.CloseWrite()
+	if err != nil{
+		fmt.Println(err)
+	}
 	fmt.Println("close write")
+	<-done // wait for background goroutine to finish
+	conn.CloseRead()
+
 }
 
 //!-

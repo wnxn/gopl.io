@@ -8,15 +8,29 @@ package main
 
 import (
 	"fmt"
+	"sync"
 	"time"
 )
 
 //!+
-func main() {
-	go spinner(100 * time.Millisecond)
+//func main() {
+//	go spinner(100 * time.Millisecond)
+//	const n = 45
+//	fibN := fib(n) // slow
+//	fmt.Printf("\rFibonacci(%d) = %d\n", n, fibN)
+//}
+
+func main(){
+	a := sync.WaitGroup{}
 	const n = 45
-	fibN := fib(n) // slow
-	fmt.Printf("\rFibonacci(%d) = %d\n", n, fibN)
+	a.Add(1)
+	go func(i int){
+		defer a.Done()
+		fibN := fib(n) // slow
+		fmt.Printf("\rFibonacci(%d) = %d\n", n, fibN)
+	}(n)
+	go spinner(100 * time.Millisecond)
+	a.Wait()
 }
 
 func spinner(delay time.Duration) {

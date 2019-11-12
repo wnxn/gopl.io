@@ -6,7 +6,9 @@
 // Pipeline1 demonstrates an infinite 3-stage pipeline.
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 //!+
 func main() {
@@ -14,25 +16,23 @@ func main() {
 	squares := make(chan int)
 
 	// Counter
-	go func(ch chan<- int) {
-		for x := 0; x < 10; x++ {
-			ch <- x
+	go func() {
+		for x := 0;x<10 ; x++ {
+			naturals <- x
 		}
-		close(ch)
-	}(naturals)
+	}()
 
 	// Squarer
-	go func(ch1 chan<- int, ch2 <-chan int) {
-		for x := range ch2 {
-			ch1 <- x * x
+	go func() {
+		for {
+			x := <-naturals
+			squares <- x * x
 		}
-		close(ch1)
-	}(squares, naturals)
+	}()
 
 	// Printer (in main goroutine)
-
-	for x := range squares {
-		fmt.Println(x)
+	for {
+		fmt.Println(<-squares)
 	}
 }
 
